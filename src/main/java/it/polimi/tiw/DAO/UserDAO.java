@@ -31,6 +31,7 @@ public class UserDAO {
                 result.next();
                 user = new User();
                 user.setUsername(result.getString("username"));
+                user.setName(result.getString("name"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -50,7 +51,7 @@ public class UserDAO {
         }
         return user;
     }
-
+    /*
     public boolean existsUser(User user) throws SQLException {
         String query = "SELECT username FROM user WHERE username = ?";
         ResultSet result = null;
@@ -82,30 +83,17 @@ public class UserDAO {
             }
         }
     }
-
-    public boolean createUser(String username, String password) throws SQLException {
+*/
+    public boolean createUser(User user, String password) throws SQLException {
         int code = 0;
-        String query = "INSERT into user (username, password)   VALUES(?, ?)";
+        String query = "INSERT into user (username, password, name)   VALUES(?, ?, ?)";
         PreparedStatement pstatement = null;
-        User newUser = new User();
-        newUser.setUsername(username);
-        boolean exists=false;
 
-        try {
-            exists = this.existsUser(newUser);
-        }catch(SQLException e){
-            throw e;
-        }
-        if(exists==true){
-            return false;
-        }
-
-        //user isn't in the DB
         try {
             pstatement = con.prepareStatement(query);
-            pstatement.setString(1, username);
+            pstatement.setString(1, user.getUsername());
             pstatement.setString(2, password);
-
+            pstatement.setString(3, user.getName());
             code = pstatement.executeUpdate();
         } catch (SQLException e) {
             throw e;
