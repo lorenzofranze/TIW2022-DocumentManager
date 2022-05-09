@@ -10,6 +10,7 @@ public class Document {
     private String type;
     private String summary;
     private Date date;
+    private byte [] body;
 
     public String getUsername() {
         return username;
@@ -66,4 +67,13 @@ public class Document {
     public void setDate(Date date) {
         this.date = date;
     }
+
+    public byte[] getBody() {
+        return body;
+    }
+
+    public void setBody(byte[] body) {
+        this.body = body;
+    }
+
 }
