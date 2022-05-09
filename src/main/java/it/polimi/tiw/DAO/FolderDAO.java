@@ -36,7 +36,7 @@ public class FolderDAO {
     public boolean insertFolder(Folder folder) throws SQLException {
         String query = "INSERT into folder VALUES(?, ?, ?)";
         PreparedStatement pstatement = null;
-        int code = 0;
+        int code;
 
         try {
             pstatement = connection.prepareStatement(query);
@@ -44,15 +44,10 @@ public class FolderDAO {
             pstatement.setString(2, folder.getFolderName());
             pstatement.setDate(3, (Date) folder.getDate());
             code = pstatement.executeUpdate();
-        } catch (SQLException e) {
-            throw e;
         } finally {
-            try {
-                pstatement.close();
-            } catch (Exception e1) {
-                throw e1;
-            }
+            assert pstatement != null;
+            pstatement.close();
         }
-        return (code==1 ? true : false);
+        return (code == 1);
     }
 }

@@ -28,7 +28,7 @@ public class SubFolderDAO {
                     newSubFolder.setFolderName(result.getString("foldername"));
                     newSubFolder.setSubFolderName(result.getString("subfoldername"));
                     newSubFolder.setDate(result.getDate("date"));
-                    allFolders.add(newSubFolder);
+                    allSubFoldersOfFolder.add(newSubFolder);
                 }
             }
         }
@@ -38,7 +38,7 @@ public class SubFolderDAO {
     public boolean insertSubFolder(SubFolder subFolder) throws SQLException {
         String query = "INSERT into subfolder VALUES(?, ?, ?, ?)";
         PreparedStatement pstatement = null;
-        int code = 0;
+        int code;
 
         try {
             pstatement = connection.prepareStatement(query);
@@ -47,15 +47,10 @@ public class SubFolderDAO {
             pstatement.setString(3, subFolder.getSubFolderName());
             pstatement.setDate(4, (Date) subFolder.getDate());
             code = pstatement.executeUpdate();
-        } catch (SQLException e) {
-            throw e;
         } finally {
-            try {
-                pstatement.close();
-            } catch (Exception e1) {
-                throw e1;
-            }
+            assert pstatement != null;
+            pstatement.close();
         }
-        return (code==1 ? true : false);
+        return (code == 1);
     }
 }

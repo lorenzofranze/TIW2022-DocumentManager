@@ -1,6 +1,5 @@
 package it.polimi.tiw.controllers;
 
-// TODO: Alessandro
-
 public class Documents {
+    //TODO: implement actual methods
 }

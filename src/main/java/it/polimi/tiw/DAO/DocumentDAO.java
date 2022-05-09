@@ -1,10 +1,11 @@
 package it.polimi.tiw.DAO;
 
 import it.polimi.tiw.beans.Document;
-import it.polimi.tiw.beans.SubFolder;
 
-import javax.print.Doc;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,7 +62,7 @@ public class DocumentDAO {
 
         try {
             pstatement = con.prepareStatement(query);
-            pstatement.setString(1, documentDo.getUsername());
+            pstatement.setString(1, document.getUsername());
             pstatement.setString(2, document.getFolderName());
             pstatement.setString(3, document.getSubFolderName());
             pstatement.setString(4, document.getDocumentName());
