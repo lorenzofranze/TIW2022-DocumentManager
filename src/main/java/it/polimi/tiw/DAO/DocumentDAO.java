@@ -61,7 +61,7 @@ public class DocumentDAO {
 
         try {
             pstatement = con.prepareStatement(query);
-            pstatement.setString(1, document.getUsername());
+            pstatement.setString(1, documentDo.getUsername());
             pstatement.setString(2, document.getFolderName());
             pstatement.setString(3, document.getSubFolderName());
             pstatement.setString(4, document.getDocumentName());
