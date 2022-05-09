@@ -34,6 +34,7 @@ public class Login extends HttpServlet {
         templateResolver.setSuffix(".html");
     }
 
+    //TODO: add errorMsg and registationOK in login Page
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 

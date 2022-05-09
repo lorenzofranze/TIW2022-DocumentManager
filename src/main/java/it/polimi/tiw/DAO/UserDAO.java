@@ -51,15 +51,15 @@ public class UserDAO {
         }
         return user;
     }
-    /*
-    public boolean existsUser(User user) throws SQLException {
+
+    public boolean existsUser(String username) throws SQLException {
         String query = "SELECT username FROM user WHERE username = ?";
         ResultSet result = null;
         PreparedStatement pstatement = null;
 
         try {
             pstatement = con.prepareStatement(query);
-            pstatement.setString(1, user.getUsername());
+            pstatement.setString(1, username);
             result = pstatement.executeQuery();
             if (!result.isBeforeFirst())
                 return false;
@@ -83,7 +83,7 @@ public class UserDAO {
             }
         }
     }
-*/
+
     public boolean createUser(User user, String password) throws SQLException {
         int code = 0;
         String query = "INSERT into user (username, password, name)   VALUES(?, ?, ?)";
