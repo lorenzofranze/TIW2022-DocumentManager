@@ -92,11 +92,11 @@ public class Subscribe extends HttpServlet {
             }catch(SQLException e){
                 response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in database subscribing");
             }
-            path = "loginPage";
+            path = "/loginPage.html";
             ctx.setVariable("registationOK", "registation completed");
         }else{
             //return to subscribePage
-            path = "subscribePage";
+            path = "/subscribePage.html";
         }
         templateEngine.process(path, ctx, response.getWriter());
 

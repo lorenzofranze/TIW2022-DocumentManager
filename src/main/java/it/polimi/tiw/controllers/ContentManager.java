@@ -1,12 +1,12 @@
 package it.polimi.tiw.controllers;
 
-import it.polimi.tiw.DAO.*;
+import it.polimi.tiw.DAO.FolderDAO;
 import it.polimi.tiw.beans.*;
+import it.polimi.tiw.utils.ConnectionHandler;
 import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
-import it.polimi.tiw.utils.*;
+
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,9 +17,11 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
-@WebServlet("/Login")
-public class Login extends HttpServlet {
+@WebServlet("/ContentManager")
+public class ContentManager extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private Connection connection = null;
     private TemplateEngine templateEngine;
@@ -34,43 +36,28 @@ public class Login extends HttpServlet {
         templateResolver.setSuffix(".html");
     }
 
-    //TODO: add errorMsg and registationOK in login Page
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-
-        if (username == null || password == null || username.isEmpty() || password.isEmpty()) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Parameters incomplete");
-            return;
-        }
-
-
-        UserDAO userDao = new UserDAO(connection);
-        User user = null;
-
-        try {
-            user = userDao.checkUser(username, password);
-        } catch (SQLException e) {
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not Possible to check credentials");
-            return;
-        }
-
-        String path;
-        if (user == null) {
-            ServletContext servletContext = getServletContext();
-            final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-            ctx.setVariable("errorMsg", "Incorrect username or password");
-            path = "/loginPage.html";
-            templateEngine.process(path, ctx, response.getWriter());
-        } else {
-            HttpSession session = request.getSession();
-            session.setAttribute("currentUser", user);
-            path = getServletContext().getContextPath() + "/WEB-INF/homePage.html";
+        //redirect to login if not logged in
+        String path = getServletContext().getContextPath() + "/login.html";
+        HttpSession session = request.getSession();
+        if (session.isNew() || session.getAttribute("user") == null) {
             response.sendRedirect(path);
+            return;
         }
 
+        User user = (User) session.getAttribute("currentUser");
+        List<Folder> folders= new ArrayList<>();
+        FolderDAO foDAO = new FolderDAO(connection);
+        try {
+            folders = foDAO.getAllFolderOfUser(user.getUsername());
+        } catch (SQLException e) {
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to recover folders");
+            return;
+        }
+
+        //TODO: getsubfolders and submit to page html
     }
 
     public void destroy() {

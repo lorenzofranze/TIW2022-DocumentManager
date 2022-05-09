@@ -115,7 +115,7 @@ public class DocumentDAO {
         }
     }
 
-    public List<Document> getAllDocumentOfSubFolder (String username, String folderName, String subFolderName) throws SQLException{
+    public List<Document> getAllDocumentsOfSubFolder (String username, String folderName, String subFolderName) throws SQLException{
         String query = "select * from document where username = ? " +
                 "and folderName = ? and subFolderName = ? " +
                 "and documentName = ? and type = ?";
