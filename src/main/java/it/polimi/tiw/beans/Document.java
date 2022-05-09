@@ -8,7 +8,7 @@ public class Document {
     private String subFolderName;
     private String documentName;
     private String type;
-    private String summury;
+    private String summary;
     private Date date;
 
     public String getUsername() {
@@ -51,12 +51,12 @@ public class Document {
         this.type = type;
     }
 
-    public String getSummury() {
-        return summury;
+    public String getSummary() {
+        return summary;
     }
 
     public void setSummury(String summury) {
-        this.summury = summury;
+        this.summary = summury;
     }
 
     public Date getDate() {

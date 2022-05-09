@@ -73,7 +73,7 @@ public class DocumentDAO {
             pstatement.setString(3, document.getSubFolderName());
             pstatement.setString(4, document.getDocumentName());
             pstatement.setString(5, document.getType());
-            pstatement.setString(6, document.getSummury());
+            pstatement.setString(6, document.getSummary());
             pstatement.setTimestamp(1, new Timestamp(System.currentTimeMillis())); // verificare
             code = pstatement.executeUpdate();
         } catch (SQLException e) {
@@ -98,7 +98,7 @@ public class DocumentDAO {
 
         try {
             pstatement = con.prepareStatement(query);
-            pstatement.setString(1, destination.getFolderName);
+            pstatement.setString(1, destination.getFolderName());
             pstatement.setString(2, destination.getSubFolderName());
             pstatement.setString(3, document.getUsername());
             pstatement.setString(4, document.getFolderName());
