@@ -3,13 +3,13 @@ package it.polimi.tiw.beans;
 import java.util.Date;
 
 public class SubFolder {
-    private String ownerUsername;
+    private String username;
     private String subFolderName;
     private String FolderName;
     private Date date;
 
-    public String getOwnerUsername() {
-        return ownerUsername;
+    public String getUsername() {
+        return username;
     }
 
     public String getSubFolderName() {
@@ -24,8 +24,8 @@ public class SubFolder {
         return FolderName;
     }
 
-    public void setOwnerUsername(String ownerUsername) {
-        this.ownerUsername = ownerUsername;
+    public void setUsername(String ownerUsername) {
+        this.username = ownerUsername;
     }
 
     public void setSubFolderName(String subFolderName) {

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Subscribe page</title>
+    <link rel="stylesheet" type="text/css" href="../CSS/LoginSubscribe.css" th:href="@{/CSS/LoginSubscribe.css}" />
+</head>
+<body>
+<h1>documents management application</h1>
+
+<h3>register to the document manager application</h3>
+
+<form action="Subscribe" method="POST">
+    Username: <input type="text" name="username" minlength="4" required> <p th:text=" ${usernameError}"></p>
+    Email: <input type="email" name="email" minlength="4" required> <p th:text=" ${emailError}"></p>
+    name: <input type="text" name="name" required> <p th:text=" ${nameError}"></p>
+    Password: <input type="password" name="password1" minlength="4" required> <p th:text=" ${passwordError}"></p>
+    Confirm password: <input type="password" name="password2" required> <p th:text=" ${passwordDifferentError}"></p>
+    <input type="submit" value="subscribe">
+</form>
+<br>
+<a href = "loginPage.html"> Back to login </a>
+
+</body>
+</html>

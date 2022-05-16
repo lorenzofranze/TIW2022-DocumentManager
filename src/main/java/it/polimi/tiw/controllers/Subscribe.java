@@ -38,10 +38,11 @@ public class Subscribe extends HttpServlet {
             throws ServletException, IOException {
         doPost(request, response);
     }
-    //todo: add 4 variables in html thymeleaf
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String username = request.getParameter("username");
+        String email = request.getParameter("email");
         String name = request.getParameter("name");
         String password1 = request.getParameter("password1");
         String password2 = request.getParameter("password2");
@@ -54,6 +55,10 @@ public class Subscribe extends HttpServlet {
         //to repeat client side
         if(username == null || username.length()<=3 ) {
             ctx.setVariable("usernameError", "username at least 4 characters");
+            registationOK=false;
+        }
+        if(email == null || email.length()<=3 || !email.contains("@")){
+            ctx.setVariable("emailError", "email invalid");
             registationOK=false;
         }
         if(name == null || name.isEmpty()) {
@@ -70,15 +75,30 @@ public class Subscribe extends HttpServlet {
         }
 
         boolean exists=true;
+        //check username
         if(registationOK) {
             try {
+
                 exists = dao.existsUser(username);
             } catch (SQLException e) {
-                response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in database checking user");
+                response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in database checking username");
             }
             //there is an other user with same username
             if(exists){
                 ctx.setVariable("usernameError", "username already in use");
+                registationOK=false;
+            }
+        }
+        //check email
+        if(registationOK){
+            try {
+                exists = dao.existsEmail(email);
+            } catch (SQLException e) {
+                response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in database checking email");
+            }
+            //there is an other user with same username
+            if(exists){
+                ctx.setVariable("emailError", "email already in use");
                 registationOK=false;
             }
         }
@@ -87,6 +107,7 @@ public class Subscribe extends HttpServlet {
             try{
                 User user = new User();
                 user.setUsername(username);
+                user.setEmail(email);
                 user.setName(name);
                 dao.createUser(user,password1);
             }catch(SQLException e){

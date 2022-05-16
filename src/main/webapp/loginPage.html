@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="ISO-8859-1">
+  <title>Login page</title>
+  <link rel="stylesheet" type="text/css" href="../CSS/LoginSubscribe.css" th:href="@{/CSS/LoginSubscribe.css}" />
+</head>
+<body>
+<h1>Welcome to the documents management application</h1>
+
+<p id="registationOk" th:text=" ${registationOK}"></p>
+
+<form action="Login" method="POST">
+  Username: <input type="text" name="username" required> <br>
+  Password: <input type="password" name="password" required><br>
+  <input type="submit" value="login">
+  <p th:text=" ${errorMsg}"></p>
+  <a href = "subscribePage.html"> Subscribe </a>
+</form>
+
+</body>
+</html>

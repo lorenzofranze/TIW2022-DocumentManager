@@ -23,7 +23,7 @@ public class FolderDAO {
             try (ResultSet result = pstatement.executeQuery()) {
                 while (result.next()) {
                     Folder newFolder = new Folder();
-                    newFolder.setOwnerUsername(result.getString("username"));
+                    newFolder.setUsername(result.getString("username"));
                     newFolder.setFolderName(result.getString("foldername"));
                     newFolder.setDate(result.getDate("date"));
                     allFolders.add(newFolder);
@@ -40,7 +40,7 @@ public class FolderDAO {
 
         try {
             pstatement = connection.prepareStatement(query);
-            pstatement.setString(1, folder.getOwnerUsername());
+            pstatement.setString(1, folder.getUsername());
             pstatement.setString(2, folder.getFolderName());
             pstatement.setDate(3, (Date) folder.getDate());
             code = pstatement.executeUpdate();

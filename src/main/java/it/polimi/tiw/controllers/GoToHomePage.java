@@ -4,6 +4,7 @@ import it.polimi.tiw.DAO.*;
 import it.polimi.tiw.beans.*;
 import it.polimi.tiw.utils.ConnectionHandler;
 import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
@@ -20,7 +21,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @WebServlet("/GoToHomePage")
-public class GoToHomePage {
+public class GoToHomePage extends HttpServlet{
     private static final long serialVersionUID = 1L;
     private Connection connection = null;
     private TemplateEngine templateEngine;
@@ -65,8 +66,8 @@ public class GoToHomePage {
         String path = "/WEB-INF/Home.html";
         ServletContext servletContext = getServletContext();
         final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-        ctx.setVariable("allproducts", allprods);
-        ctx.setVariable("topproducts", topprods);
+        ctx.setVariable("allproducts", allFolders);
+        ctx.setVariable("topproducts", allSubFolders);
         templateEngine.process(path, ctx, response.getWriter());
     }
 }

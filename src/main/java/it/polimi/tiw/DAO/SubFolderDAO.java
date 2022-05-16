@@ -24,7 +24,7 @@ public class SubFolderDAO {
             try (ResultSet result = pstatement.executeQuery()) {
                 while (result.next()) {
                     SubFolder newSubFolder = new SubFolder();
-                    newSubFolder.setOwnerUsername(result.getString("username"));
+                    newSubFolder.setUsername(result.getString("username"));
                     newSubFolder.setFolderName(result.getString("foldername"));
                     newSubFolder.setSubFolderName(result.getString("subfoldername"));
                     newSubFolder.setDate(result.getDate("date"));
@@ -42,7 +42,7 @@ public class SubFolderDAO {
 
         try {
             pstatement = connection.prepareStatement(query);
-            pstatement.setString(1, subFolder.getOwnerUsername());
+            pstatement.setString(1, subFolder.getUsername());
             pstatement.setString(2, subFolder.getFolderName());
             pstatement.setString(3, subFolder.getSubFolderName());
             pstatement.setDate(4, (Date) subFolder.getDate());

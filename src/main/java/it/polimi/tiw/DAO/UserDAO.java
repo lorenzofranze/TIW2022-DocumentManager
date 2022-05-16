@@ -56,16 +56,18 @@ public class UserDAO {
         String query = "SELECT username FROM user WHERE username = ?";
         ResultSet result = null;
         PreparedStatement pstatement = null;
+        boolean status;
 
         try {
             pstatement = con.prepareStatement(query);
             pstatement.setString(1, username);
             result = pstatement.executeQuery();
             if (!result.isBeforeFirst())
-                return false;
+                status = false;
             else {
-                return true;
+                status = true;
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
             throw new SQLException(e);
@@ -82,18 +84,55 @@ public class UserDAO {
                 throw new SQLException(e2);
             }
         }
+        return status;
+    }
+
+    public boolean existsEmail(String email) throws SQLException {
+        String query = "SELECT email FROM user WHERE email = ?";
+        ResultSet result = null;
+        PreparedStatement pstatement = null;
+        boolean status;
+
+        try {
+            pstatement = con.prepareStatement(query);
+            pstatement.setString(1, email);
+            result = pstatement.executeQuery();
+            if (!result.isBeforeFirst())
+                status = false;
+            else {
+                status = true;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException(e);
+
+        } finally {
+            try {
+                result.close();
+            } catch (Exception e1) {
+                throw new SQLException(e1);
+            }
+            try {
+                pstatement.close();
+            } catch (Exception e2) {
+                throw new SQLException(e2);
+            }
+        }
+        return status;
     }
 
     public boolean createUser(User user, String password) throws SQLException {
         int code = 0;
-        String query = "INSERT into user (username, password, name)   VALUES(?, ?, ?)";
+        String query = "INSERT into user (username, password, email, name)   VALUES(?, ?, ?, ?)";
         PreparedStatement pstatement = null;
 
         try {
             pstatement = con.prepareStatement(query);
             pstatement.setString(1, user.getUsername());
             pstatement.setString(2, password);
-            pstatement.setString(3, user.getName());
+            pstatement.setString(3, user.getEmail());
+            pstatement.setString(4, user.getName());
             code = pstatement.executeUpdate();
         } catch (SQLException e) {
             throw e;

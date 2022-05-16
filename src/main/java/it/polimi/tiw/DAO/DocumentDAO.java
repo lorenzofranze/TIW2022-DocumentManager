@@ -16,13 +16,14 @@ public class DocumentDAO {
         this.con = connection;
     }
 
-    /*
+
     public boolean exists(Document document) throws SQLException{
         String query = "SELECT * FROM document WHERE username = ? " +
                 "and folderName = ? and subFolderName = ? " +
                 "and documentName = ? and type = ?";
         ResultSet result = null;
         PreparedStatement pstatement = null;
+        boolean status;
 
         try {
             pstatement = con.prepareStatement(query);
@@ -34,9 +35,9 @@ public class DocumentDAO {
             result = pstatement.executeQuery();
 
             if (!result.isBeforeFirst())
-                return false;
+                status = false;
             else {
-                return true;
+                status =  true;
             }
         } catch (SQLException e) {
             throw new SQLException(e);
@@ -53,8 +54,9 @@ public class DocumentDAO {
                 throw e;
             }
         }
+        return status;
     }
-*/
+
     public boolean insertDocument(Document document) throws SQLException {
         String query = "INSERT into document VALUES(?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement pstatement = null;

@@ -2,6 +2,7 @@ package it.polimi.tiw.beans;
 
 public class User {
     private String username; // table's key
+    private String email; // unique
     private String name;
 
     public String getUsername() {
@@ -16,5 +17,12 @@ public class User {
     public void setName(String name) {
         this.name = name;
     }
+    public String getEmail() {
+        return email;
+    }
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
 
 }
