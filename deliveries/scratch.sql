@@ -1,3 +1,5 @@
+--ho dato il nome db_docmanager allo schema solo per avere lo stesso nome nel web.xml
+
 CREATE TABLE  user (
     username VARCHAR(16) NOT NULL PRIMARY KEY,
     email VARCHAR(20) NOT NULL UNIQUE,
@@ -13,7 +15,7 @@ CREATE TABLE folder (
     FOREIGN KEY (username)
         REFERENCES user (username)
         ON DELETE CASCADE ON UPDATE CASCADE
-)
+);
 
 CREATE TABLE subfolder (
     username VARCHAR(16) NOT NULL,
