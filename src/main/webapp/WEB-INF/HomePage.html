@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="ISO-8859-1">
+    <title>HomePage</title>
+    <link rel="stylesheet" type="text/css" media="all"
+          href="Static/Style/Style.css" th:href="@{/WEB-INF/Static/Style/Style.css}" />
+  </head>
+  <body>
+    <h1>Document Management Home Page</h1>
+    <ul>
+      <li th:each="folder : ${allfolders}"><span th:text="${folder.getFolderName()}"></span>
+    </ul>
+  </body>
+</html>

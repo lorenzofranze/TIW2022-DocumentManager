@@ -25,7 +25,6 @@ public class Login extends HttpServlet {
     private TemplateEngine templateEngine;
 
     public void init() throws ServletException {
-        connection = ConnectionHandler.getConnection(getServletContext());
         ServletContext servletContext = getServletContext();
         ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver(servletContext);
         templateResolver.setTemplateMode(TemplateMode.HTML);
