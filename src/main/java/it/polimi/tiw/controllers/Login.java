@@ -25,6 +25,7 @@ public class Login extends HttpServlet {
     private TemplateEngine templateEngine;
 
     public void init() throws ServletException {
+        connection = ConnectionHandler.getConnection(getServletContext());
         ServletContext servletContext = getServletContext();
         ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver(servletContext);
         templateResolver.setTemplateMode(TemplateMode.HTML);
@@ -66,7 +67,8 @@ public class Login extends HttpServlet {
         } else {
             HttpSession session = request.getSession();
             session.setAttribute("currentUser", user);
-            path = getServletContext().getContextPath() + "/WEB-INF/homePage.html";
+            path = getServletContext().getContextPath() + "/GoToHomePage"; // servlet
+            System.out.println("utente ok redirect");  // for debug
             response.sendRedirect(path);
         }
 

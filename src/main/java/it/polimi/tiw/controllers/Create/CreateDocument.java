@@ -77,7 +77,7 @@ public class CreateDocument extends HttpServlet {
         doc.setDocumentName(documentName);
         doc.setDate(new Date());
         doc.setSummury(summury);
-        doc.setBody(body);
+        //doc.setBody(body);
 
         //check folder name univocity
         if(creationOK) {
@@ -88,7 +88,7 @@ public class CreateDocument extends HttpServlet {
             }
 
             if(exists){
-                ctx.setVariable("subFolderNameError", "you already have a document with same name in this sub folder");
+                ctx.setVariable("subFolderNameError", "you already have a similar document in this sub folder");
                 creationOK=false;
             }
         }
@@ -103,7 +103,7 @@ public class CreateDocument extends HttpServlet {
             ctx.setVariable("creationOK", "new document added");
             path="/GoToHomePage";
         }else{
-            path="/ContentManager";
+            path="/WEB-INF//ContentManagerPage.html";
         }
         templateEngine.process(path, ctx, response.getWriter());
     }

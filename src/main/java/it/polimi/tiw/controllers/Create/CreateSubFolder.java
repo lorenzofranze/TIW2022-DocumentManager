@@ -66,6 +66,7 @@ public class CreateSubFolder extends HttpServlet {
         SubFolderDAO dao = new SubFolderDAO(connection);
         //check folder name univocity
         if(creationOK) {
+
             try {
                 exists = dao.existsSubFolder(((User) session.getAttribute("currentUser")).getUsername(), folderName, subFolderName);
             } catch (SQLException e) {
@@ -93,7 +94,7 @@ public class CreateSubFolder extends HttpServlet {
             ctx.setVariable("creationOK", "sub folder added");
             path="/GoToHomePage";
         }else{
-            path="/ContentManager";
+            path="/WEB-INF//ContentManagerPage.html";
         }
         templateEngine.process(path, ctx, response.getWriter());
     }

@@ -16,7 +16,7 @@ public class UserDAO {
 
     public User checkUser(String username, String password) throws SQLException {
         User user = null;
-        String query = "SELECT username FROM user WHERE username = ? and password = ?";
+        String query = "SELECT * FROM user WHERE username = ? and password = ?";
         ResultSet result = null;
         PreparedStatement pstatement = null;
 
@@ -31,6 +31,7 @@ public class UserDAO {
                 result.next();
                 user = new User();
                 user.setUsername(result.getString("username"));
+                user.setEmail(result.getString("email"));
                 user.setName(result.getString("name"));
             }
         } catch (SQLException e) {
@@ -143,6 +144,6 @@ public class UserDAO {
                 throw e1;
             }
         }
-        return (code==1 ? true : false);
+        return (code==1 );
     }
 }

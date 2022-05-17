@@ -53,4 +53,41 @@ public class SubFolderDAO {
         }
         return (code == 1);
     }
+
+    public boolean existsSubFolder(String username, String folderName, String subFolderName) throws SQLException{
+        String query = "SELECT username FROM subfolder WHERE username = ? and folderName = ? and subFoldername = ?";
+        ResultSet result = null;
+        PreparedStatement pstatement = null;
+        boolean status;
+
+        try {
+            pstatement = connection.prepareStatement(query);
+            pstatement.setString(1, username);
+            pstatement.setString(2, folderName);
+            pstatement.setString(3, subFolderName);
+            result = pstatement.executeQuery();
+            if (!result.isBeforeFirst())
+                status = false;
+            else {
+                status = true;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException(e);
+
+        } finally {
+            try {
+                result.close();
+            } catch (Exception e1) {
+                throw new SQLException(e1);
+            }
+            try {
+                pstatement.close();
+            } catch (Exception e2) {
+                throw new SQLException(e2);
+            }
+        }
+        return status;
+    }
 }

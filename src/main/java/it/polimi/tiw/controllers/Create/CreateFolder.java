@@ -86,7 +86,7 @@ public class CreateFolder extends HttpServlet {
             ctx.setVariable("creationOK", "folder added");
             path="/GoToHomePage";
         }else{
-            path="/ContentManager";
+            path="/WEB-INF//ContentManagerPage.html";
         }
         templateEngine.process(path, ctx, response.getWriter());
     }
