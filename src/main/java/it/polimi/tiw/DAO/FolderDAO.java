@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.polimi.tiw.beans.*;
+import it.polimi.tiw.utils.ConnectionHandler;
+
+import javax.servlet.http.HttpSession;
 
 public class FolderDAO {
     private final Connection connection;
@@ -26,11 +29,34 @@ public class FolderDAO {
                     newFolder.setUsername(result.getString("username"));
                     newFolder.setFolderName(result.getString("foldername"));
                     newFolder.setDate(result.getDate("date"));
+                    newFolder.setChildList(getAllChildOfFolder(newFolder, username));
                     allFolders.add(newFolder);
                 }
             }
         }
         return allFolders;
+    }
+
+    public List<SubFolder> getAllChildOfFolder(Folder folder, String username) throws SQLException {
+
+        List<SubFolder> allSubFoldersOf = new ArrayList<>();
+
+        try (PreparedStatement pstatement = connection.prepareStatement(
+                "SELECT * FROM subfolder WHERE username = ? AND foldername = ? ")) {
+            pstatement.setString(1, username);
+            pstatement.setString(2, folder.getFolderName());
+            try (ResultSet result = pstatement.executeQuery()) {
+                while (result.next()) {
+                    SubFolder newSubFolder = new SubFolder();
+                    newSubFolder.setUsername(result.getString("username"));
+                    newSubFolder.setFolderName(result.getString("foldername"));
+                    newSubFolder.setSubFolderName(result.getString("subfoldername"));
+                    newSubFolder.setDate(result.getDate("date"));
+                    allSubFoldersOf.add(newSubFolder);
+                }
+            }
+        }
+        return allSubFoldersOf;
     }
 
     public boolean insertFolder(Folder folder) throws SQLException {

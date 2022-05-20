@@ -5,7 +5,7 @@ import java.util.Date;
 public class SubFolder {
     private String username;
     private String subFolderName;
-    private String FolderName;
+    private String folderName;
     private Date date;
 
     public String getUsername() {
@@ -21,7 +21,7 @@ public class SubFolder {
     }
 
     public String getFolderName() {
-        return FolderName;
+        return folderName;
     }
 
     public void setUsername(String ownerUsername) {
@@ -37,6 +37,6 @@ public class SubFolder {
     }
 
     public void setFolderName(String folderName) {
-        FolderName = folderName;
+        this.folderName = folderName;
     }
 }

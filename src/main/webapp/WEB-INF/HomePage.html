@@ -10,6 +10,9 @@
     <h1>Document Management Home Page</h1>
     <ul>
       <li th:each="folder : ${allfolders}"><span th:text="${folder.getFolderName()}"></span>
+      <ul>
+        <li th:each="subfolder: ${folder.getChildList()}"><span th:text="${subfolder.getSubFolderName()}"></span>
+      </ul>
     </ul>
   </body>
 </html>

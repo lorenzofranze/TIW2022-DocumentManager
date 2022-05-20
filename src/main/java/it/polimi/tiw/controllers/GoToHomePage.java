@@ -1,6 +1,11 @@
 package it.polimi.tiw.controllers;
 
+import it.polimi.tiw.DAO.FolderDAO;
+import it.polimi.tiw.DAO.SubFolderDAO;
 import it.polimi.tiw.beans.Folder;
+import it.polimi.tiw.beans.SubFolder;
+import it.polimi.tiw.beans.User;
+import it.polimi.tiw.utils.ConnectionHandler;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
@@ -12,6 +17,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -33,40 +39,39 @@ public class GoToHomePage extends HttpServlet{
     }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        /*
+        this.connection = ConnectionHandler.getConnection(getServletContext());
         HttpSession session = request.getSession(false);
         if (session == null) {
             String path = getServletContext().getContextPath();
             response.sendRedirect(path);
         }
-        */
 
-        List<Folder> allfolders = new ArrayList<Folder>();
-        for (int i = 0; i < 3; i++) {
-            Folder folder = new Folder();
-            folder.setFolderName(String.valueOf(i));
-            folder.setUsername("pushi");
-            allfolders.add(folder);
-        }
+        List<Folder> allfolders = new ArrayList<>();
+        // List<SubFolder> allsubfolders = new ArrayList<>();
 
-        /*
-        FolderDAO folderService = new FolderDAO(connection);
+        FolderDAO fService = new FolderDAO(connection);
+        // SubFolderDAO sService = new SubFolderDAO(connection);
+
         try {
-            assert session != null;
-            allfolders = folderService.getAllFolderOfUser(String.valueOf(session.getAttribute("currentUser")));
+            if (session != null) {
+                User user = (User) session.getAttribute("currentUser");
+                String username = user.getUsername();
+                allfolders = fService.getAllFolderOfUser(username);
+                // allsubfolders = sService.getAllSubFolderOfFolder(username, "Prova1");
+            }
         } catch (Exception e) {
             e.printStackTrace();
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-                    "Error in retrieving folders from the database");
+                    "Error in retrieving products from the database");
             return;
         }
-        */
 
         // Redirect to the Home page and add folders to the parameters
         String path = "/WEB-INF/HomePage.html";
         ServletContext servletContext = getServletContext();
         final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
         ctx.setVariable("allfolders", allfolders);
+        // ctx.setVariable("allsubfolders", allsubfolders);
         templateEngine.process(path, ctx, response.getWriter());
     }
 }
