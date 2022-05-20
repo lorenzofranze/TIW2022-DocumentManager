@@ -1,8 +1,7 @@
 package it.polimi.tiw.controllers;
 
-import it.polimi.tiw.DAO.FolderDAO;
-import it.polimi.tiw.beans.Folder;
-import it.polimi.tiw.beans.User;
+import it.polimi.tiw.DAO.DocumentDAO;
+import it.polimi.tiw.beans.Document;
 import it.polimi.tiw.utils.ConnectionHandler;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
@@ -15,14 +14,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet("/GoToHomePage")
-public class GoToHomePage extends HttpServlet{
+@WebServlet("/Documents")
+public class Documents extends HttpServlet {
+
     private static final long serialVersionUID = 1L;
     private TemplateEngine templateEngine;
     private Connection connection = null;
@@ -35,41 +34,34 @@ public class GoToHomePage extends HttpServlet{
         this.templateEngine.setTemplateResolver(templateResolver);
         templateResolver.setSuffix(".html");
     }
+
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         connection = ConnectionHandler.getConnection(getServletContext());
-        HttpSession session = request.getSession(false);
-        if (session == null) {
-            String path = getServletContext().getContextPath();
-            response.sendRedirect(path);
-        }
 
-        List<Folder> allfolders = new ArrayList<>();
-        // List<SubFolder> allsubfolders = new ArrayList<>();
+        String username = request.getParameter("username");
+        String folderName = request.getParameter("folderName");
+        String subFolderName = request.getParameter("subFolderName");
 
-        FolderDAO fService = new FolderDAO(connection);
-        // SubFolderDAO sService = new SubFolderDAO(connection);
+        List<Document> allDocumentsOf = new ArrayList<>();
 
+        DocumentDAO dService = new DocumentDAO(connection);
+
+        // TODO: check if session.user == request.user
         try {
-            if (session != null) {
-                User user = (User) session.getAttribute("currentUser");
-                String username = user.getUsername();
-                allfolders = fService.getAllFolderOfUser(username);
-                // allsubfolders = sService.getAllSubFolderOfFolder(username, "Prova1");
-            }
+            allDocumentsOf = dService.getAllDocumentsOfSubFolder(username, folderName, subFolderName);
         } catch (Exception e) {
             e.printStackTrace();
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-                    "Error in retrieving products from the database");
+                    "Error in retrieving documents from the database");
             return;
         }
 
-        // Redirect to the Home page and add folders to the parameters
-        String path = "/WEB-INF/HomePage.html";
+        String path = "/WEB-INF/documents.html";
         ServletContext servletContext = getServletContext();
         final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-        ctx.setVariable("allfolders", allfolders);
-        // ctx.setVariable("allsubfolders", allsubfolders);
+        ctx.setVariable("allDocumentsOf", allDocumentsOf);
         templateEngine.process(path, ctx, response.getWriter());
     }
 }

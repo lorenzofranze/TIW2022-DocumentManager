@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+    <body>
+    <ul>
+        <li th:each="document : ${allDocumentsOf}">
+            <span th:text="${document.documentName}"></span>
+            <span th:text="${document.subFolderName}"></span>
+            <span th:text="${document.folderName}"></span>
+            <span th:text="${document.date}"></span>
+            <span th:text="${document.type}"></span>
+            <span th:text="${document.summary}"></span>
+            <!-- TODO: Check if it's a best practice to pass params via GET, and if it would be better to use an ID to referr to elems -->
+            <a th:href="@{/Access(username=${document.username},
+                                  folderName=${document.folderName},
+                                  subFolderName=${document.subFolderName},
+                                  documentName=${document.documentName},
+                                  documentType=${document.type}
+                                  )}">
+                <span>View</span>
+            </a>
+            <a th:href="@{/MoveDocument(username=${document.username},
+                                  folderName=${document.folderName},
+                                  subFolderName=${document.subFolderName},
+                                  documentName=${document.documentName},
+                                  documentType=${document.type}
+                                  )}">
+                <span>Move</span>
+            </a>
+        </li>
+    </ul>
+    </body>
+</html>

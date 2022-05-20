@@ -9,9 +9,11 @@
   <body>
     <h1>Document Management Home Page</h1>
     <ul>
-      <li th:each="folder : ${allfolders}"><span th:text="${folder.getFolderName()}"></span>
+      <li th:each="folder : ${allfolders}"><span th:text="${folder.folderName}"></span>
       <ul>
-        <li th:each="subfolder: ${folder.getChildList()}"><span th:text="${subfolder.getSubFolderName()}"></span>
+        <li th:each="subfolder: ${folder.getChildList()}">
+          <a th:href="@{/Documents(username=${subfolder.username},folderName=${subfolder.folderName},subFolderName=${subfolder.subFolderName})}">
+            <span th:text="${subfolder.getSubFolderName()}"></span></a>
       </ul>
     </ul>
   </body>

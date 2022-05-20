@@ -119,8 +119,7 @@ public class DocumentDAO {
 
     public List<Document> getAllDocumentsOfSubFolder (String username, String folderName, String subFolderName) throws SQLException{
         String query = "select * from document where username = ? " +
-                "and folderName = ? and subFolderName = ? " +
-                "and documentName = ? and type = ?";
+                "and folderName = ? and subFolderName = ?";
         PreparedStatement pstatement = null;
         ResultSet result = null;
 
@@ -140,9 +139,9 @@ public class DocumentDAO {
                 toAdd.setUsername(result.getString("username"));
                 toAdd.setFolderName(result.getString("folderName"));
                 toAdd.setSubFolderName(result.getString("subFolderName"));
-                toAdd.setDocumentName(result.getString("documetName"));
+                toAdd.setDocumentName(result.getString("documentName"));
                 toAdd.setType(result.getString("type"));
-                toAdd.setSummury(result.getString("summury"));
+                toAdd.setSummury(result.getString("summary"));
                 toAdd.setDate(result.getDate("date"));
                 byte[] body = result.getBytes("body");
                 toAdd.setBody(body);
@@ -150,13 +149,7 @@ public class DocumentDAO {
             }
         } catch (SQLException e) {
             throw new SQLException(e);
-
         } finally {
-            try {
-                result.close();
-            } catch (SQLException e) {
-                throw e;
-            }
             try {
                 pstatement.close();
             } catch (SQLException e) {
@@ -194,9 +187,9 @@ public class DocumentDAO {
             doc.setUsername(result.getString("username"));
             doc.setFolderName(result.getString("folderName"));
             doc.setSubFolderName(result.getString("subFolderName"));
-            doc.setDocumentName(result.getString("documetName"));
+            doc.setDocumentName(result.getString("documentName"));
             doc.setType(result.getString("type"));
-            doc.setSummury(result.getString("summury"));
+            doc.setSummury(result.getString("summary"));
             doc.setDate(result.getDate("date"));
             byte[] body = result.getBytes("body");
             doc.setBody(body);
