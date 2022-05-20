@@ -14,7 +14,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
-        <junit.version>5.7.1</junit.version>
+        <junit.version>5.8.2</junit.version>
     </properties>
 
     <dependencies>
@@ -23,6 +23,11 @@
             <artifactId>javaee-web-api</artifactId>
             <version>8.0.1</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.thymeleaf</groupId>
+            <artifactId>thymeleaf</artifactId>
+            <version>3.0.12.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -36,16 +41,6 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>jstl</artifactId>
-            <version>1.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.thymeleaf</groupId>
-            <artifactId>thymeleaf</artifactId>
-            <version>3.0.12.RELEASE</version>
-        </dependency>
     </dependencies>
 
     <build>
@@ -53,7 +48,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>3.3.1</version>
+                <version>3.3.2</version>
             </plugin>
         </plugins>
     </build>
