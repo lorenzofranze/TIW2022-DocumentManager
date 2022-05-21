@@ -20,6 +20,7 @@ import javax.servlet.http.HttpSession;
 import javax.ws.rs.core.Request;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +30,8 @@ public class GoToHomePage extends HttpServlet{
     private TemplateEngine templateEngine;
     private static Connection connection = null;
 
-    public void init() {
+    public void init() throws ServletException {
+        connection = ConnectionHandler.getConnection(getServletContext());
         ServletContext servletContext = getServletContext();
         ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver(servletContext);
         templateResolver.setTemplateMode(TemplateMode.HTML);
@@ -39,7 +41,7 @@ public class GoToHomePage extends HttpServlet{
     }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        connection = ConnectionHandler.getConnection(getServletContext());
+
         HttpSession session = request.getSession(false);
         if (session == null) {
             String path = getServletContext().getContextPath();
@@ -71,10 +73,17 @@ public class GoToHomePage extends HttpServlet{
         } catch (Exception e) {
             e.printStackTrace();
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-                    "Error in retrieving products from the database");
-            return null;
+                    "Error in retrieving folders from the database");
         }
 
         return allfolders;
+    }
+
+    public void destroy() {
+        try {
+            ConnectionHandler.closeConnection(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

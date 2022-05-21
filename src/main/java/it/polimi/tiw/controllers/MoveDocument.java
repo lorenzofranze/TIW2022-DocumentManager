@@ -27,9 +27,10 @@ public class MoveDocument extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private TemplateEngine templateEngine;
     private Connection connection = null;
-    private Document doc = null;
+
 
     public void init() throws ServletException {
+        connection = ConnectionHandler.getConnection(getServletContext());
         ServletContext servletContext = getServletContext();
         ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver(servletContext);
         templateResolver.setTemplateMode(TemplateMode.HTML);
@@ -40,7 +41,6 @@ public class MoveDocument extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        connection = ConnectionHandler.getConnection(getServletContext());
 
         //redirect to login if not logged in
         String path = getServletContext().getContextPath() + "/";
@@ -57,6 +57,7 @@ public class MoveDocument extends HttpServlet {
         String requestAction = request.getParameter("requestAction");
 
         DocumentDAO docDAO = new DocumentDAO(connection);
+        Document doc = null;
 
         if (requestAction.equals("chooseMovement")) {
 
@@ -71,8 +72,10 @@ public class MoveDocument extends HttpServlet {
                 return;
             }
 
+
+
             try{
-                this.doc = docDAO.getDocumentByKey(username, folderName, subFolderName, documentName, type);
+                doc = docDAO.getDocumentByKey(username, folderName, subFolderName, documentName, type);
                 if(doc == null){
                     response.sendError(HttpServletResponse.SC_NOT_FOUND, "Resource not found");
                 } else if (!(doc.getUsername().equals(sessionUser.getUsername()))){
@@ -99,7 +102,7 @@ public class MoveDocument extends HttpServlet {
             String folderName = request.getParameter("folderName");
             String subFolderName = request.getParameter("subFolderName");
 
-            if (this.doc != null) {
+            if (doc != null) {
                 // TODO: check if user has privileges
                 try {
                     docDAO.moveDocumentFromSubFolder(doc, folderName, subFolderName);

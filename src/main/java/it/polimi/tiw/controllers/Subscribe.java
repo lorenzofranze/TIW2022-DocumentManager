@@ -54,20 +54,20 @@ public class Subscribe extends HttpServlet {
 
         //to repeat client side
         if(username == null || username.length()<=3 ) {
-            ctx.setVariable("usernameError", "username at least 4 characters");
-            registationOK=false;
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Username too short");
+            return;
         }
         if(email == null || email.length()<=3 || !email.contains("@")){
-            ctx.setVariable("emailError", "email invalid");
-            registationOK=false;
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Email format error");
+            return;
         }
         if(name == null || name.isEmpty()) {
-            ctx.setVariable("nameError", "name can't be empty");
-            registationOK = false;
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Name respone error");
+            return;
         }
         if(password1 == null || password1.length()<=3 ){
-            ctx.setVariable("passwordError", "password too short");
-            registationOK=false;
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Password format error");
+            return;
         }
         if(password1!=null && !password1.equals(password2)){
             ctx.setVariable("passwordDifferentError", "passwords have different values");

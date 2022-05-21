@@ -1,14 +1,16 @@
 <component name="ArtifactManager">
-  <artifact type="war" name="TIW-Test:war">
+  <artifact type="war" name="documentManagerHTML:war">
     <output-path>$PROJECT_DIR$/target</output-path>
     <properties id="maven-jee-properties">
       <options>
-        <module>TIW-Test</module>
+        <exploded>false</exploded>
+        <module>documentManagerHTML</module>
         <packaging>war</packaging>
+        <unpackNestedArchives>false</unpackNestedArchives>
       </options>
     </properties>
     <root id="archive" name="documentManagerHTML-1.0-SNAPSHOT.war">
-      <element id="artifact" artifact-name="TIW-Test:war exploded" />
+      <element id="artifact" artifact-name="documentManagerHTML:war exploded" />
     </root>
   </artifact>
 </component>

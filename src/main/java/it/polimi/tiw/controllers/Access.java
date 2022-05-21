@@ -40,7 +40,7 @@ public class Access extends HttpServlet {
             throws ServletException, IOException {
 
         //redirect to login if not logged in
-        String path = getServletContext().getContextPath() + "/";
+        String path = getServletContext().getContextPath();
         HttpSession session = request.getSession();
 
         User sessionUser = (User) session.getAttribute("currentUser");
@@ -61,16 +61,18 @@ public class Access extends HttpServlet {
             return;
         }
 
+        //user changes parameters to access resources of other users:
+        if(!username.equals(sessionUser.getUsername())){
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "User not allowed");
+            return;
+        }
+
         Document doc;
         DocumentDAO docDAO = new DocumentDAO(connection);
         try{
             doc = docDAO.getDocumentByKey(username, folderName, subFolderName, documentName, type);
-            if(doc == null){
+            if(doc == null) {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Resource not found");
-            } else if (!(doc.getUsername().equals(sessionUser.getUsername()))){
-                //example: user changes parameters to access resources of other users
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "User not allowed");
-                return;
             }
         }catch(SQLException e){
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to recover document");
