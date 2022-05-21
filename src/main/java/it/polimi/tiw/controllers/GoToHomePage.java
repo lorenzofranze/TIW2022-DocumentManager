@@ -11,11 +11,13 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.UnavailableException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.ws.rs.core.Request;
 import java.io.IOException;
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -25,7 +27,7 @@ import java.util.List;
 public class GoToHomePage extends HttpServlet{
     private static final long serialVersionUID = 1L;
     private TemplateEngine templateEngine;
-    private Connection connection = null;
+    private static Connection connection = null;
 
     public void init() {
         ServletContext servletContext = getServletContext();
@@ -44,32 +46,35 @@ public class GoToHomePage extends HttpServlet{
             response.sendRedirect(path);
         }
 
-        List<Folder> allfolders = new ArrayList<>();
-        // List<SubFolder> allsubfolders = new ArrayList<>();
-
-        FolderDAO fService = new FolderDAO(connection);
-        // SubFolderDAO sService = new SubFolderDAO(connection);
-
-        try {
-            if (session != null) {
-                User user = (User) session.getAttribute("currentUser");
-                String username = user.getUsername();
-                allfolders = fService.getAllFolderOfUser(username);
-                // allsubfolders = sService.getAllSubFolderOfFolder(username, "Prova1");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-                    "Error in retrieving products from the database");
-            return;
-        }
+        List<Folder> allfolders = getFolderTree(request, response, session);
 
         // Redirect to the Home page and add folders to the parameters
         String path = "/WEB-INF/HomePage.html";
         ServletContext servletContext = getServletContext();
         final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
         ctx.setVariable("allfolders", allfolders);
-        // ctx.setVariable("allsubfolders", allsubfolders);
         templateEngine.process(path, ctx, response.getWriter());
+    }
+
+    public static List<Folder> getFolderTree(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws UnavailableException, IOException {
+
+        List<Folder> allfolders = new ArrayList<>();
+
+        FolderDAO fService = new FolderDAO(connection);
+
+        try {
+            if (session != null) {
+                User user = (User) session.getAttribute("currentUser");
+                String username = user.getUsername();
+                allfolders = fService.getAllFolderOfUser(username);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    "Error in retrieving products from the database");
+            return null;
+        }
+
+        return allfolders;
     }
 }

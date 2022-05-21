@@ -12,8 +12,13 @@
   <li th:each="folder : ${allfolders}"><span th:text="${folder.folderName}"></span>
     <ul>
       <li th:each="subfolder: ${folder.getChildList()}">
-        <a th:href="@{/Move(username=${subfolder.username},folderName=${subfolder.folderName},subFolderName=${subfolder.subFolderName})}">
-          <span th:text="${subfolder.getSubFolderName()}"></span></a>
+        <a th:if="${!(docToMove.folderName == subfolder.folderName && docToMove.subFolderName == subfolder.subFolderName)}"
+           th:href="@{/MoveDocument(folderName=${subfolder.folderName},
+                                  subFolderName=${subfolder.subFolderName},
+                                  requestAction='updateFolder')}">
+          <span th:text="${subfolder.getSubFolderName()}"></span>
+        </a>
+        <span th:unless="${!(docToMove.folderName == subfolder.folderName && docToMove.subFolderName == subfolder.subFolderName)}" th:text="${subfolder.getSubFolderName()}"></span>
     </ul>
 </ul>
 </body>
