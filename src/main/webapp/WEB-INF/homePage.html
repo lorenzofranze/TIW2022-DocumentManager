@@ -8,6 +8,7 @@
   </head>
   <body>
     <h1>Document Management Home Page</h1>
+    <p class= "creation" th:text=" ${creationOK}"></p>
     <ul>
       <li th:each="folder : ${allfolders}"><span th:text="${folder.folderName}"></span>
       <ul>

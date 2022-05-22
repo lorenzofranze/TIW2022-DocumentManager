@@ -76,8 +76,18 @@ public class ContentManager extends HttpServlet {
         ServletContext servletContext = getServletContext();
         final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
         ctx.setVariable("subFolderMap", subFolderMap);
+        ctx.setVariable("folderNameError", request.getAttribute("folderNameError"));
+        ctx.setVariable("inexistentFolder", request.getAttribute("inexistentFolder"));
+        ctx.setVariable("subFolderNameError", request.getAttribute("subFolderNameError"));
+        ctx.setVariable("inexistentFolderFromDocument", request.getAttribute("inexistentFolderFromDocument"));
+        ctx.setVariable("inexistentSubFolderFromDocument", request.getAttribute("inexistentSubFolderFromDocument"));
+        ctx.setVariable("documentNameError", request.getAttribute("documentNameError"));
         path = "/WEB-INF/contentManagerPage.html";
         templateEngine.process(path, ctx, response.getWriter());
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        doGet(request, response);
     }
 
     public void destroy() {

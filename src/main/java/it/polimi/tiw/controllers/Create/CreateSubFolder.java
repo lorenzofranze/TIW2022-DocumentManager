@@ -11,6 +11,7 @@ import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,24 +28,17 @@ import java.util.Date;
 public class CreateSubFolder extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private Connection connection = null;
-    private TemplateEngine templateEngine;
+
 
     public void init() throws ServletException {
         connection = ConnectionHandler.getConnection(getServletContext());
-        ServletContext servletContext = getServletContext();
-        ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver(servletContext);
-        templateResolver.setTemplateMode(TemplateMode.HTML);
-        this.templateEngine = new TemplateEngine();
-        this.templateEngine.setTemplateResolver(templateResolver);
-        templateResolver.setSuffix(".html");
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        ServletContext servletContext = getServletContext();
-        final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
         boolean creationOK = true;
+
         //redirect to login if not logged in
         String path = getServletContext().getContextPath();
         HttpSession session = request.getSession();
@@ -60,7 +54,6 @@ public class CreateSubFolder extends HttpServlet {
         //to repeat client side
         if (subFolderName == null || subFolderName.length() <= 3 || folderName == null || folderName.length()<=3) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Name format error");
-            return;
         }
 
         boolean exists=true;
@@ -74,7 +67,7 @@ public class CreateSubFolder extends HttpServlet {
         }
         if(exists==false){
             creationOK=false;
-            ctx.setVariable("FolderError", "you are creating a sub folder in an inexistent folder");
+            request.setAttribute("inexistentFolder", "you are creating a sub folder in an inexistent folder");
         }
         //check folder name univocity
         if(creationOK) {
@@ -86,7 +79,7 @@ public class CreateSubFolder extends HttpServlet {
             }
 
             if(exists){
-                ctx.setVariable("subFolderNameError", "you already have a sub folder with this name in this folder");
+                request.setAttribute("subFolderNameError", "you already have a sub folder with this name in this folder");
                 creationOK=false;
             }
         }
@@ -103,13 +96,15 @@ public class CreateSubFolder extends HttpServlet {
             } catch (SQLException e) {
                 response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in database update subfolders");
             }
-            ctx.setVariable("creationOK", "sub folder added");
-            path="/goToHomePage";
+            path = getServletContext().getContextPath() + "/GoToHomePage";
+            session.setAttribute("creationOK", "new sub folder created");
+            response.sendRedirect(path);
         }else{
-            System.out.println("creation non ok");
-            path="/WEB-INF/contentManagerPage.html";
+            RequestDispatcher dispatcher = getServletContext()
+                    .getRequestDispatcher("/ContentManager");
+            dispatcher.forward(request,response);
         }
-        templateEngine.process(path, ctx, response.getWriter());
+
     }
 
     public void destroy() {

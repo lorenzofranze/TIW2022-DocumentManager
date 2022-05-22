@@ -9,6 +9,7 @@ import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,23 +26,14 @@ import java.util.Date;
 public class CreateFolder extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private Connection connection = null;
-    private TemplateEngine templateEngine;
 
     public void init() throws ServletException {
         connection = ConnectionHandler.getConnection(getServletContext());
-        ServletContext servletContext = getServletContext();
-        ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver(servletContext);
-        templateResolver.setTemplateMode(TemplateMode.HTML);
-        this.templateEngine = new TemplateEngine();
-        this.templateEngine.setTemplateResolver(templateResolver);
-        templateResolver.setSuffix(".html");
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        ServletContext servletContext = getServletContext();
-        final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
         boolean creationOK = true;
         //redirect to login if not logged in
         String path = getServletContext().getContextPath();
@@ -68,9 +60,9 @@ public class CreateFolder extends HttpServlet {
             } catch (SQLException e) {
                 response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in database checking folders");
             }
-            //there is an other user with same username
+            //there is an other folder with same name
             if(exists){
-                ctx.setVariable("folderNameError", "you already have a folder with this name ");
+                request.setAttribute("folderNameError", "you already have a folder with this name ");
                 creationOK=false;
             }
         }
@@ -85,12 +77,15 @@ public class CreateFolder extends HttpServlet {
             } catch (SQLException e) {
                 response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in database update folders");
             }
-            ctx.setVariable("creationOK", "folder added");
-            path="/goToHomePage";
+            path = getServletContext().getContextPath() + "/GoToHomePage";
+            session.setAttribute("creationOK", "new folder created");
+            response.sendRedirect(path);
+
         }else{
-            path="/WEB-INF//contentManagerPage.html";
+            RequestDispatcher dispatcher = getServletContext()
+                    .getRequestDispatcher("/ContentManager");
+            dispatcher.forward(request,response);
         }
-        templateEngine.process(path, ctx, response.getWriter());
     }
 
     public void destroy() {

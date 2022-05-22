@@ -3,12 +3,13 @@
 <head>
     <meta charset="ISO-8859-1">
     <title>Content Manager Page</title>
+    <link rel="stylesheet" type="text/css" href="../CSS/ContentManager.css" th:href="@{/CSS/ContentManager.css}" />
 </head>
 <body>
     <h2> Document Manager Page </h2>
     <h4>Here you can create your files</h4>
     <ul>
-        <li th:each="folder : ${subFolderMap}"><span th:text="${folder.folderName}"></span>
+        <li th:each="folder : ${subFolderMap.keySet()}"><span th:text="${folder.folderName}"></span>
             <ul>
                 <li th:each="subfolder: ${subFolderMap.get(folder)}">
                     <span th:text="${subfolder.getSubFolderName()}"></span>
@@ -23,6 +24,7 @@
                 <p>
                     Folder name: <input type="text" name="folderName" required minlength="4"/>
                 </p>
+                <p class= "nameError" th:text=" ${folderNameError}"></p>
                 <input type="submit" name="Create ">
             </fieldset>
         </form>
@@ -33,11 +35,14 @@
         <form action="#" th:action="@{/CreateSubFolder}" method="POST">
             <fieldset>
                 <p>
-                    Sub folder name: <input type="text" name="folderName" required minlength="4"/>
+                    In folder : <input type="text" name="folderName" required minlength="4"/>
                 </p>
+                <p class= "nameError" th:text=" ${inexistentFolder}"></p>
                 <p>
-                    In folder : <input type="text" name="subFolderName" required minlength="4"/>
+                    Create sub folder : <input type="text" name="subFolderName" required minlength="4"/>
                 </p>
+                <p class= "nameError" th:text=" ${subFolderNameError}"></p>
+
                 <input type="submit" name="Create ">
             </fieldset>
         </form>
@@ -45,22 +50,25 @@
 
     <div  class="formdiv">
         <p>Complete the form to create a document</p>
-        <form action="#" th:action="@{/CreateDocument}" method="POST">
+        <form action="#" th:action="@{/CreateDocument}" method="POST" enctype="multipart/form-data">
             <fieldset>
                 <p>
-                    Document name: <input type="text" name="DocumentName" required minlength="4"/>
+                    Document name: <input type="text" name="documentName" required minlength="4"/>
                 </p>
+                <p class= "nameError" th:text=" ${documentNameError}"></p>
                 <p>
                     In folder : <input type="text" name="folderName" required minlength="4"/>
                 </p>
+                <p class= "nameError" th:text=" ${inexistentFolderFromDocument}"></p>
                 <p>
                      In sub folder : <input type="text" name="subFolderName" required minlength="4"/>
                 </p>
+                <p class= "nameError" th:text=" ${inexistentSubFolderFromDocument}"></p>
                 <p>
                     Summury : <input type="text" name="summury" required />
                 </p>
                 <p>
-                    <input type="file"  name="body">
+                    <input type="file"  name="body" required>
                 </p>
                 <input type="submit" name="Create ">
             </fieldset>

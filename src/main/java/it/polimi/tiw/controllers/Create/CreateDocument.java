@@ -14,8 +14,10 @@ import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
@@ -25,26 +27,18 @@ import java.sql.SQLException;
 import java.util.Date;
 
 @WebServlet("/CreateDocument")
+@MultipartConfig(maxFileSize = 16177215)
 public class CreateDocument extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private Connection connection = null;
-    private TemplateEngine templateEngine;
 
     public void init() throws ServletException {
         connection = ConnectionHandler.getConnection(getServletContext());
-        ServletContext servletContext = getServletContext();
-        ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver(servletContext);
-        templateResolver.setTemplateMode(TemplateMode.HTML);
-        this.templateEngine = new TemplateEngine();
-        this.templateEngine.setTemplateResolver(templateResolver);
-        templateResolver.setSuffix(".html");
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        ServletContext servletContext = getServletContext();
-        final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
         boolean creationOK = true;
 
         //redirect to login if not logged in
@@ -55,7 +49,6 @@ public class CreateDocument extends HttpServlet {
             return;
         }
 
-        String username = request.getParameter("username");
         String folderName = request.getParameter("folderName");
         String subFolderName = request.getParameter("subFolderName");
         String documentName = request.getParameter("documentName");
@@ -64,28 +57,56 @@ public class CreateDocument extends HttpServlet {
         String type ="";
         InputStream inputStream = null; // input stream of the uploaded file
         String mimeType = null;
+        String filename = filePart.getSubmittedFileName();
         if (filePart != null) {
-            type = FilenameUtils.getExtension(filePart.getName());
+            filename = filePart.getSubmittedFileName();
+            type = FilenameUtils.getExtension(filename);
             inputStream = filePart.getInputStream();
             mimeType = getServletContext().getMimeType(filePart.getSubmittedFileName());
         }
 
         if (inputStream == null || (inputStream.available()==0) ) {
-            response.sendError(505, "Parameters incomplete");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Empty file uploaded");
             return;
         }
 
-        //CONTROLLI MANCANTII
+        //controlls to repeat client side
 
-        //to repeat client side
-        if (subFolderName == null || subFolderName.length() <= 3) {
-            ctx.setVariable("subFolderNameError", "sub folder name too short");
-            creationOK = false;
+        if (subFolderName == null || subFolderName.length() <= 3 ||
+                folderName == null || folderName.length() <= 3 ||
+                documentName==null || documentName.length()<=3 ||
+                summury==null || summury.isEmpty() ) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Name format error");
+            return;
+        }
+        System.out.println("ok controlli iniziali fatti, type: "+type);
+
+        //controlls on folders and subfolders
+        boolean exists=true;
+        FolderDAO folderDAO = new FolderDAO(connection);
+        SubFolderDAO subFolderDAO = new SubFolderDAO(connection);
+        //check if folder exists
+        try{
+            exists=folderDAO.existsFolder(((User) session.getAttribute("currentUser")).getUsername(), folderName);
+        }catch(SQLException e ){
+            response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in database checking folders");
+        }
+        if(exists==false){
+            creationOK=false;
+            request.setAttribute("inexistentFolderFromDocument", "you are creating a document in an inexistent folder");
+        }
+        //check if sub folder exists
+        try{
+            exists=subFolderDAO.existsSubFolder(((User) session.getAttribute("currentUser")).getUsername(), folderName, subFolderName);
+        }catch(SQLException e ){
+            response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in database checking sub folders");
+        }
+        if(exists==false){
+            creationOK=false;
+            request.setAttribute("inexistentSubFolderFromDocument", "you are creating a document in an inexistent sub folder");
         }
 
-        boolean exists=true;
         DocumentDAO dao = new DocumentDAO(connection);
-
         //check folder name univocity
         if(creationOK) {
             try {
@@ -96,7 +117,7 @@ public class CreateDocument extends HttpServlet {
             }
 
             if(exists){
-                ctx.setVariable("subFolderNameError", "you already have a similar document in this sub folder");
+                request.setAttribute("documentNameError", "you already have a similar document in this sub folder");
                 creationOK=false;
             }
         }
@@ -109,12 +130,14 @@ public class CreateDocument extends HttpServlet {
             } catch (SQLException e) {
                 response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in database update documents");
             }
-            ctx.setVariable("creationOK", "new document added");
-            path="/goToHomePage";
+            path = getServletContext().getContextPath() + "/GoToHomePage";
+            session.setAttribute("creationOK", "new document uploaded");
+            response.sendRedirect(path);
         }else{
-            path="/WEB-INF//contentManagerPage.html";
+            RequestDispatcher dispatcher = getServletContext()
+                    .getRequestDispatcher("/ContentManager");
+            dispatcher.forward(request,response);
         }
-        templateEngine.process(path, ctx, response.getWriter());
     }
 
     public void destroy() {
