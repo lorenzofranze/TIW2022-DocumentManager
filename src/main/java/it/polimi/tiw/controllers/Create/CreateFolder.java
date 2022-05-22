@@ -11,6 +11,7 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +21,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Date;
 
+@WebServlet("/CreateFolder")
 public class CreateFolder extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private Connection connection = null;
@@ -35,14 +37,14 @@ public class CreateFolder extends HttpServlet {
         templateResolver.setSuffix(".html");
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         ServletContext servletContext = getServletContext();
         final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
         boolean creationOK = true;
         //redirect to login if not logged in
-        String path = getServletContext().getContextPath() + "/login.html";
+        String path = getServletContext().getContextPath();
         HttpSession session = request.getSession();
         if (session.isNew() || session.getAttribute("currentUser") == null) {
             response.sendRedirect(path);
@@ -53,8 +55,8 @@ public class CreateFolder extends HttpServlet {
 
         //to repeat client side
         if(folderName == null || folderName.length()<=3 ) {
-            ctx.setVariable("folderNameError", "folder name too short");
-            creationOK=false;
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Name format error");
+            return;
         }
 
         boolean exists=true;
@@ -84,9 +86,9 @@ public class CreateFolder extends HttpServlet {
                 response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in database update folders");
             }
             ctx.setVariable("creationOK", "folder added");
-            path="/GoToHomePage";
+            path="/goToHomePage";
         }else{
-            path="/WEB-INF//ContentManagerPage.html";
+            path="/WEB-INF//contentManagerPage.html";
         }
         templateEngine.process(path, ctx, response.getWriter());
     }

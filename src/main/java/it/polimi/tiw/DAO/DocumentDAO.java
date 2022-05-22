@@ -2,11 +2,14 @@ package it.polimi.tiw.DAO;
 
 import it.polimi.tiw.beans.Document;
 
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Date;
 import java.util.List;
 
 public class DocumentDAO {
@@ -17,7 +20,7 @@ public class DocumentDAO {
     }
 
 
-    public boolean exists(Document document) throws SQLException{
+    public boolean exists(String username, String folderName, String subFolderName, String documentName, String type) throws SQLException{
         String query = "SELECT * FROM document WHERE username = ? " +
                 "and folderName = ? and subFolderName = ? " +
                 "and documentName = ? and type = ?";
@@ -27,11 +30,11 @@ public class DocumentDAO {
 
         try {
             pstatement = con.prepareStatement(query);
-            pstatement.setString(1, document.getUsername());
-            pstatement.setString(2, document.getFolderName());
-            pstatement.setString(3, document.getSubFolderName());
-            pstatement.setString(4, document.getDocumentName());
-            pstatement.setString(5, document.getType());
+            pstatement.setString(1, username);
+            pstatement.setString(2, folderName);
+            pstatement.setString(3, subFolderName);
+            pstatement.setString(4, documentName);
+            pstatement.setString(5, type);
             result = pstatement.executeQuery();
 
             if (!result.isBeforeFirst())
@@ -57,20 +60,21 @@ public class DocumentDAO {
         return status;
     }
 
-    public boolean insertDocument(Document document) throws SQLException {
-        String query = "INSERT into document VALUES(?, ?, ?, ?, ?, ?, ?)";
+    public boolean insertDocument(String username, String folderName, String subFolderName, String documentName, String type, String summury, Date date, InputStream body) throws SQLException {
+        String query = "INSERT into document VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement pstatement = null;
         int code = 0;
 
         try {
             pstatement = con.prepareStatement(query);
-            pstatement.setString(1, document.getUsername());
-            pstatement.setString(2, document.getFolderName());
-            pstatement.setString(3, document.getSubFolderName());
-            pstatement.setString(4, document.getDocumentName());
-            pstatement.setString(5, document.getType());
-            pstatement.setString(6, document.getSummary());
-            pstatement.setDate(7, (java.sql.Date) document.getDate()); // verificare
+            pstatement.setString(1, username);
+            pstatement.setString(2, folderName);
+            pstatement.setString(3, subFolderName);
+            pstatement.setString(4, documentName);
+            pstatement.setString(5, type);
+            pstatement.setString(6, summury);
+            pstatement.setDate(7, new java.sql.Date(date.getTime()));
+            pstatement.setBlob(8, body);
             code = pstatement.executeUpdate();
         } catch (SQLException e) {
             throw e;
@@ -143,8 +147,9 @@ public class DocumentDAO {
                 toAdd.setType(result.getString("type"));
                 toAdd.setSummury(result.getString("summary"));
                 toAdd.setDate(result.getDate("date"));
-                byte[] body = result.getBytes("body");
-                toAdd.setBody(body);
+                byte[] data = result.getBytes("body");
+                String encodedData= Base64.getEncoder().encodeToString(data);
+                toAdd.setBody(encodedData);
                 allDocuments.add(toAdd);
             }
         } catch (SQLException e) {
@@ -191,8 +196,9 @@ public class DocumentDAO {
             doc.setType(result.getString("type"));
             doc.setSummury(result.getString("summary"));
             doc.setDate(result.getDate("date"));
-            byte[] body = result.getBytes("body");
-            doc.setBody(body);
+            byte[] data = result.getBytes("body");
+            String encodedData= Base64.getEncoder().encodeToString(data);
+            doc.setBody(encodedData);
 
         } catch (SQLException e) {
             throw new SQLException(e);

@@ -68,7 +68,7 @@ public class FolderDAO {
             pstatement = connection.prepareStatement(query);
             pstatement.setString(1, folder.getUsername());
             pstatement.setString(2, folder.getFolderName());
-            pstatement.setDate(3, (Date) folder.getDate());
+            pstatement.setDate(3, new Date(folder.getDate().getTime()));
             code = pstatement.executeUpdate();
         } finally {
             assert pstatement != null;

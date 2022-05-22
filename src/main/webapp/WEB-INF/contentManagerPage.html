@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Content Manager Page</title>
+</head>
+<body>
+    <h2> Document Manager Page </h2>
+    <h4>Here you can create your files</h4>
+    <ul>
+        <li th:each="folder : ${subFolderMap}"><span th:text="${folder.folderName}"></span>
+            <ul>
+                <li th:each="subfolder: ${subFolderMap.get(folder)}">
+                    <span th:text="${subfolder.getSubFolderName()}"></span>
+            </ul>
+        </li>
+    </ul>
+
+    <div  class="formdiv">
+        <p>Complete the form to create a folder</p>
+        <form action="#" th:action="@{/CreateFolder}" method="POST">
+            <fieldset>
+                <p>
+                    Folder name: <input type="text" name="folderName" required minlength="4"/>
+                </p>
+                <input type="submit" name="Create ">
+            </fieldset>
+        </form>
+    </div>
+
+    <div  class="formdiv">
+        <p>Complete the form to create a sub folder</p>
+        <form action="#" th:action="@{/CreateSubFolder}" method="POST">
+            <fieldset>
+                <p>
+                    Sub folder name: <input type="text" name="folderName" required minlength="4"/>
+                </p>
+                <p>
+                    In folder : <input type="text" name="subFolderName" required minlength="4"/>
+                </p>
+                <input type="submit" name="Create ">
+            </fieldset>
+        </form>
+    </div>
+
+    <div  class="formdiv">
+        <p>Complete the form to create a document</p>
+        <form action="#" th:action="@{/CreateDocument}" method="POST">
+            <fieldset>
+                <p>
+                    Document name: <input type="text" name="DocumentName" required minlength="4"/>
+                </p>
+                <p>
+                    In folder : <input type="text" name="folderName" required minlength="4"/>
+                </p>
+                <p>
+                     In sub folder : <input type="text" name="subFolderName" required minlength="4"/>
+                </p>
+                <p>
+                    Summury : <input type="text" name="summury" required />
+                </p>
+                <p>
+                    <input type="file"  name="body">
+                </p>
+                <input type="submit" name="Create ">
+            </fieldset>
+        </form>
+    </div>
+
+</body>
+</html>

@@ -13,6 +13,7 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,6 +23,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Date;
 
+@WebServlet("/CreateSubFolder")
 public class CreateSubFolder extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private Connection connection = null;
@@ -44,7 +46,7 @@ public class CreateSubFolder extends HttpServlet {
         final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
         boolean creationOK = true;
         //redirect to login if not logged in
-        String path = getServletContext().getContextPath() + "/login.html";
+        String path = getServletContext().getContextPath();
         HttpSession session = request.getSession();
         if (session.isNew() || session.getAttribute("currentUser") == null) {
             response.sendRedirect(path);
@@ -54,21 +56,31 @@ public class CreateSubFolder extends HttpServlet {
         String folderName = request.getParameter("folderName");
         String subFolderName = request.getParameter("subFolderName");
 
-        //CONTROLLI SU FOLDER ??
 
         //to repeat client side
-        if (subFolderName == null || subFolderName.length() <= 3) {
-            ctx.setVariable("subFolderNameError", "sub folder name too short");
-            creationOK = false;
+        if (subFolderName == null || subFolderName.length() <= 3 || folderName == null || folderName.length()<=3) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Name format error");
+            return;
         }
 
         boolean exists=true;
-        SubFolderDAO dao = new SubFolderDAO(connection);
+        FolderDAO folderDAO = new FolderDAO(connection);
+        SubFolderDAO subFolderDAO = new SubFolderDAO(connection);
+        //check if folder exists
+        try{
+            exists=folderDAO.existsFolder(((User) session.getAttribute("currentUser")).getUsername(), folderName);
+        }catch(SQLException e ){
+            response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in database checking folders");
+        }
+        if(exists==false){
+            creationOK=false;
+            ctx.setVariable("FolderError", "you are creating a sub folder in an inexistent folder");
+        }
         //check folder name univocity
         if(creationOK) {
 
             try {
-                exists = dao.existsSubFolder(((User) session.getAttribute("currentUser")).getUsername(), folderName, subFolderName);
+                exists = subFolderDAO.existsSubFolder(((User) session.getAttribute("currentUser")).getUsername(), folderName, subFolderName);
             } catch (SQLException e) {
                 response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in database checking folders");
             }
@@ -87,14 +99,15 @@ public class CreateSubFolder extends HttpServlet {
                 subFolder.setFolderName(folderName);
                 subFolder.setSubFolderName(subFolderName);
                 subFolder.setDate(new Date());
-                dao.insertSubFolder(subFolder);
+                subFolderDAO.insertSubFolder(subFolder);
             } catch (SQLException e) {
                 response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in database update subfolders");
             }
             ctx.setVariable("creationOK", "sub folder added");
-            path="/GoToHomePage";
+            path="/goToHomePage";
         }else{
-            path="/WEB-INF//ContentManagerPage.html";
+            System.out.println("creation non ok");
+            path="/WEB-INF/contentManagerPage.html";
         }
         templateEngine.process(path, ctx, response.getWriter());
     }

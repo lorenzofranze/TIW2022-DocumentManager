@@ -62,7 +62,7 @@ public class Subscribe extends HttpServlet {
             return;
         }
         if(name == null || name.isEmpty()) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Name respone error");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Name format error");
             return;
         }
         if(password1 == null || password1.length()<=3 ){
@@ -114,7 +114,7 @@ public class Subscribe extends HttpServlet {
                 response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in database subscribing");
             }
             path = "/loginPage.html";
-            ctx.setVariable("registationOK", "registation completed");
+            ctx.setVariable("registationOK", "REGISTRATION COMPLETED");
         }else{
             //return to subscribePage
             path = "/subscribePage.html";

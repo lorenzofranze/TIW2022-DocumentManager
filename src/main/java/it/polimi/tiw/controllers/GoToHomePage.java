@@ -51,7 +51,7 @@ public class GoToHomePage extends HttpServlet{
         List<Folder> allfolders = getFolderTree(request, response, session);
 
         // Redirect to the Home page and add folders to the parameters
-        String path = "/WEB-INF/HomePage.html";
+        String path = "/WEB-INF/homePage.html";
         ServletContext servletContext = getServletContext();
         final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
         ctx.setVariable("allfolders", allfolders);

@@ -44,9 +44,9 @@ public class ContentManager extends HttpServlet {
             throws ServletException, IOException {
 
         //redirect to login if not logged in
-        String path = getServletContext().getContextPath() + "/login.html";
+        String path = getServletContext().getContextPath();
         HttpSession session = request.getSession();
-        if (session.isNew() || session.getAttribute("user") == null) {
+        if (session.isNew() || session.getAttribute("currentUser") == null) {
             response.sendRedirect(path);
             return;
         }
@@ -63,7 +63,7 @@ public class ContentManager extends HttpServlet {
             return;
         }
 
-        //TODO: getsubfolders and submit to page html
+
         SubFolderDAO subDAO = new SubFolderDAO(connection);
         for(Folder folder : folders) {
             try {

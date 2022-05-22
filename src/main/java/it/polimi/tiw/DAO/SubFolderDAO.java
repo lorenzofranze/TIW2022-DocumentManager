@@ -45,7 +45,7 @@ public class SubFolderDAO {
             pstatement.setString(1, subFolder.getUsername());
             pstatement.setString(2, subFolder.getFolderName());
             pstatement.setString(3, subFolder.getSubFolderName());
-            pstatement.setDate(4, (Date) subFolder.getDate());
+            pstatement.setDate(4, new Date(subFolder.getDate().getTime()));
             code = pstatement.executeUpdate();
         } finally {
             assert pstatement != null;

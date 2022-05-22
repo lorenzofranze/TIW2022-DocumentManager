@@ -8,6 +8,7 @@ import it.polimi.tiw.beans.Folder;
 import it.polimi.tiw.beans.SubFolder;
 import it.polimi.tiw.beans.User;
 import it.polimi.tiw.utils.ConnectionHandler;
+import org.apache.commons.io.FilenameUtils;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
@@ -15,15 +16,15 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.*;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Date;
 
+@WebServlet("/CreateDocument")
 public class CreateDocument extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private Connection connection = null;
@@ -39,14 +40,15 @@ public class CreateDocument extends HttpServlet {
         templateResolver.setSuffix(".html");
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         ServletContext servletContext = getServletContext();
         final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
         boolean creationOK = true;
+
         //redirect to login if not logged in
-        String path = getServletContext().getContextPath() + "/login.html";
+        String path = getServletContext().getContextPath();
         HttpSession session = request.getSession();
         if (session.isNew() || session.getAttribute("currentUser") == null) {
             response.sendRedirect(path);
@@ -57,9 +59,22 @@ public class CreateDocument extends HttpServlet {
         String folderName = request.getParameter("folderName");
         String subFolderName = request.getParameter("subFolderName");
         String documentName = request.getParameter("documentName");
-        String type = request.getParameter("type");
         String summury = request.getParameter("summury");
-        // byte[] body = request.getParameter("body");
+        Part filePart = request.getPart("body");
+        String type ="";
+        InputStream inputStream = null; // input stream of the uploaded file
+        String mimeType = null;
+        if (filePart != null) {
+            type = FilenameUtils.getExtension(filePart.getName());
+            inputStream = filePart.getInputStream();
+            mimeType = getServletContext().getMimeType(filePart.getSubmittedFileName());
+        }
+
+        if (inputStream == null || (inputStream.available()==0) ) {
+            response.sendError(505, "Parameters incomplete");
+            return;
+        }
+
         //CONTROLLI MANCANTII
 
         //to repeat client side
@@ -70,19 +85,12 @@ public class CreateDocument extends HttpServlet {
 
         boolean exists=true;
         DocumentDAO dao = new DocumentDAO(connection);
-        Document doc = new Document();
-        doc.setUsername(((User) session.getAttribute("currentUser")).getUsername());
-        doc.setFolderName(folderName);
-        doc.setSubFolderName(subFolderName);
-        doc.setDocumentName(documentName);
-        doc.setDate(new Date());
-        doc.setSummury(summury);
-        //doc.setBody(body);
 
         //check folder name univocity
         if(creationOK) {
             try {
-                exists = dao.exists(doc);
+                exists = dao.exists(((User) session.getAttribute("currentUser")).getUsername(), folderName,
+                        subFolderName, documentName, type);
             } catch (SQLException e) {
                 response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in database checking folders");
             }
@@ -96,14 +104,15 @@ public class CreateDocument extends HttpServlet {
         if(creationOK) {
             //insert in database and return to HomePage
             try {
-                dao.insertDocument(doc);
+                dao.insertDocument(((User) session.getAttribute("currentUser")).getUsername(), folderName,
+                        subFolderName, documentName, type, summury, new Date(), inputStream);
             } catch (SQLException e) {
                 response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in database update documents");
             }
             ctx.setVariable("creationOK", "new document added");
-            path="/GoToHomePage";
+            path="/goToHomePage";
         }else{
-            path="/WEB-INF//ContentManagerPage.html";
+            path="/WEB-INF//contentManagerPage.html";
         }
         templateEngine.process(path, ctx, response.getWriter());
     }
