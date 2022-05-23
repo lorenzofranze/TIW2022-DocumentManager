@@ -1,18 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Title</title>
-    </head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Documents Page</title>
+    <link rel="stylesheet" type="text/css" href="../CSS/" th:href="@{/CSS/}" />
+</head>
     <body>
+    <h4 th:text="${subFolderName}"></h4>
     <ul>
         <li th:each="document : ${allDocumentsOf}">
             <span th:text="${document.documentName}"></span>
-            <span th:text="${document.subFolderName}"></span>
-            <span th:text="${document.folderName}"></span>
-            <span th:text="${document.date}"></span>
-            <span th:text="${document.type}"></span>
-            <span th:text="${document.summary}"></span>
             <!-- TODO: Check if it's a best practice to pass params via GET, and if it would be better to use an ID to referr to elems -->
             <a th:href="@{/Access(username=${document.username},
                                   folderName=${document.folderName},
@@ -20,7 +17,7 @@
                                   documentName=${document.documentName},
                                   documentType=${document.type}
                                   )}">
-                <span>View</span>
+                <span> >Access </span>
             </a>
             <a th:href="@{/MoveDocument(username=${document.username},
                                   folderName=${document.folderName},
@@ -29,7 +26,7 @@
                                   documentType=${document.type},
                                   requestAction='chooseMovement'
                                   )}">
-                <span>Move</span>
+                <span> >Move </span>
             </a>
         </li>
     </ul>

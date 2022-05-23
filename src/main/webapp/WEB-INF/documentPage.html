@@ -1,17 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="ISO-8859-1">
+    <title>Document Page</title>
+    <link rel="stylesheet" type="text/css" href="../CSS/Document.css" th:href="@{/CSS/Document.css}" />
 </head>
 <body>
-    <span th:text="${document.documentName}"></span>
-    <span th:text="${document.subFolderName}"></span>
-    <span th:text="${document.folderName}"></span>
-    <span th:text="${document.type}"></span>
-    <span th:text="${document.date}"></span>
-    <span th:text="${document.username}"></span>
-    <span th:text="${document.summary}"></span>
-    <span th:text="${document.body}"></span>
+<table>
+    <tr> <th>Folder:</th> <td><span th:text="${document.folderName}"></span></td>
+    <tr> <th>Sub folder:></th> <td> <span th:text="${document.subFolderName}"></span> </td></tr>
+    <tr id="selected"> <th>Document name:</th> <td> <span th:text="${document.documentName}"></span></td> </tr>
+    <tr> <th>Document type:</th><td>  <span th:text="${document.type}"></span></td> </tr>
+    <tr> <th>Creation:</th> <td> <span th:text="${document.date}"></span> </td></tr>
+    <tr> <th>Summury:</th>  <td><span th:text="${document.summary}"></span></td> </tr>
+    <tr> <td colspan="2" align="center"> <button> <a href="/images/myw3schoolsimage.jpg" download>  </a>Download </button> </td></tr>
+</table>
+
 </body>
 </html>

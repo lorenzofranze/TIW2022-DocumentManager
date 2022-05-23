@@ -99,6 +99,7 @@ public class Documents extends HttpServlet {
         ServletContext servletContext = getServletContext();
         final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
         ctx.setVariable("allDocumentsOf", allDocumentsOf);
+        ctx.setVariable("subFolderName", subFolderName);
         templateEngine.process(path, ctx, response.getWriter());
     }
 
