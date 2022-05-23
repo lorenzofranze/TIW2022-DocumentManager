@@ -80,6 +80,7 @@ public class ContentManager extends HttpServlet {
         ctx.setVariable("inexistentFolderFromDocument", request.getAttribute("inexistentFolderFromDocument"));
         ctx.setVariable("inexistentSubFolderFromDocument", request.getAttribute("inexistentSubFolderFromDocument"));
         ctx.setVariable("documentNameError", request.getAttribute("documentNameError"));
+        ctx.setVariable("page", "GoToHomePage");
         path = "/WEB-INF/contentManagerPage.html";
         templateEngine.process(path, ctx, response.getWriter());
     }

@@ -6,6 +6,8 @@
     <link rel="stylesheet" type="text/css" href="../CSS/Document.css" th:href="@{/CSS/Document.css}" />
 </head>
 <body>
+<div th:insert="WEB-INF/header.html :: logout"> </div>
+<div th:insert="WEB-INF/header.html :: previousPage(${page})"> </div>
 <table>
     <tr> <th>Folder:</th> <td><span th:text="${document.folderName}"></span></td>
     <tr> <th>Sub folder:></th> <td> <span th:text="${document.subFolderName}"></span> </td></tr>

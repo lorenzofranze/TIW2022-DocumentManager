@@ -6,6 +6,7 @@
     <link rel="stylesheet" type="text/css" href="../CSS/LoginSubscribeHome.css" th:href="@{/CSS/LoginSubscribeHome.css}" />
   </head>
   <body>
+  <div th:insert="WEB-INF/header.html :: logout"> </div>
     <h1>Document Management Home Page</h1>
     <p class= "creation" th:text=" ${creationOK}"></p>
     <ul>

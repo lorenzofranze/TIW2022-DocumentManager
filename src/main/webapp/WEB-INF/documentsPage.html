@@ -6,6 +6,8 @@
     <link rel="stylesheet" type="text/css" href="../CSS/" th:href="@{/CSS/}" />
 </head>
     <body>
+    <div th:insert="WEB-INF/header.html :: logout"> </div>
+    <div th:insert="WEB-INF/header.html :: previousPage(${page})"> </div>
     <h4 th:text="${subFolderName}"></h4>
     <ul>
         <li th:each="document : ${allDocumentsOf}">

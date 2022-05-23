@@ -43,9 +43,10 @@ public class GoToHomePage extends HttpServlet{
 
 
         HttpSession session = request.getSession(false);
-        if (session == null) {
+        if (session == null || session.getAttribute("currentUser")==null) {
             String path = getServletContext().getContextPath();
             response.sendRedirect(path);
+            return;
         }
 
         List<Folder> allfolders = getFolderTree(request, response, session);

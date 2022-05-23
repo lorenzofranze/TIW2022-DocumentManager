@@ -115,6 +115,7 @@ public class MoveDocument extends HttpServlet {
                 ServletContext servletContext = getServletContext();
                 final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
                 ctx.setVariable("document", doc );
+                ctx.setVariable("page", "");
                 templateEngine.process(path, ctx, response.getWriter());
 
             } else {

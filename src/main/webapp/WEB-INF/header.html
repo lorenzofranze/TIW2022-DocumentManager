@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div th:fragment="logout">
+    <p align="right"> <a href = "/documentManagerHTML/LogOut"> Log out </a> </p>
+    </div>
+    <div th:fragment="previousPage(page)">
+        <p align="left"> <a th:href = "@{'/'+${page}}"> Back to previous page </a> </p>
+    </div>
+</body>
+</html>

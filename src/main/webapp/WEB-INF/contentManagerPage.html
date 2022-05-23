@@ -6,6 +6,8 @@
     <link rel="stylesheet" type="text/css" href="../CSS/ContentManager.css" th:href="@{/CSS/ContentManager.css}" />
 </head>
 <body>
+    <div th:insert="WEB-INF/header.html :: logout"> </div>
+    <div th:insert="WEB-INF/header.html :: previousPage(${page})"> </div>
     <h2> Document Manager Page </h2>
     <h4>Here you can create your files</h4>
     <ul>
