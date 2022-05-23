@@ -3,10 +3,7 @@ package it.polimi.tiw.DAO;
 import it.polimi.tiw.beans.Document;
 
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
@@ -147,9 +144,11 @@ public class DocumentDAO {
                 toAdd.setType(result.getString("type"));
                 toAdd.setSummury(result.getString("summary"));
                 toAdd.setDate(result.getDate("date"));
+                /*
                 byte[] data = result.getBytes("body");
                 String encodedData= Base64.getEncoder().encodeToString(data);
                 toAdd.setBody(encodedData);
+                 */
                 allDocuments.add(toAdd);
             }
         } catch (SQLException e) {
@@ -196,9 +195,6 @@ public class DocumentDAO {
             doc.setType(result.getString("type"));
             doc.setSummury(result.getString("summary"));
             doc.setDate(result.getDate("date"));
-            byte[] data = result.getBytes("body");
-            String encodedData= Base64.getEncoder().encodeToString(data);
-            doc.setBody(encodedData);
 
         } catch (SQLException e) {
             throw new SQLException(e);
@@ -217,4 +213,51 @@ public class DocumentDAO {
         }
         return doc;
     }
+
+    public byte[] getDocumentData(String username, String folderName, String subFolderName, String documentName, String type) throws SQLException{
+        String query = "select body from document where username = ? " +
+                "and folderName = ? and subFolderName = ? " +
+                "and documentName = ? and type = ?";
+        PreparedStatement pstatement = null;
+        ResultSet result = null;
+        byte[] body;
+
+        try {
+            pstatement = con.prepareStatement(query);
+            pstatement.setString(1, username);
+            pstatement.setString(2, folderName);
+            pstatement.setString(3, subFolderName);
+            pstatement.setString(4, documentName);
+            pstatement.setString(5, type);
+
+            result = pstatement.executeQuery();
+
+            if (!result.isBeforeFirst())
+                return null;  //empty
+
+            result.next();
+
+            Blob blob = result.getBlob("body");
+            body = blob.getBytes(1, (int)blob.length());
+            blob.free();
+
+            result.getBinaryStream("body");
+        } catch (SQLException e) {
+            throw new SQLException(e);
+
+        } finally {
+            try {
+                result.close();
+            } catch (SQLException e) {
+                throw e;
+            }
+            try {
+                pstatement.close();
+            } catch (SQLException e) {
+                throw e;
+            }
+        }
+        return body;
+    }
+
 }

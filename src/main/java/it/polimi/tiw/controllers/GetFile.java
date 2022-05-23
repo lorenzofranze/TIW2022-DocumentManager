@@ -1,11 +1,9 @@
 package it.polimi.tiw.controllers;
 
 import it.polimi.tiw.DAO.DocumentDAO;
-import it.polimi.tiw.beans.Document;
 import it.polimi.tiw.beans.User;
 import it.polimi.tiw.utils.ConnectionHandler;
 import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
@@ -16,40 +14,33 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-@WebServlet("/Access")
-public class Access extends HttpServlet {
+@WebServlet("/GetFile")
+public class GetFile extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private Connection connection = null;
-    private TemplateEngine templateEngine;
+    private static Connection connection = null;
 
     public void init() throws ServletException {
         connection = ConnectionHandler.getConnection(getServletContext());
-        ServletContext servletContext = getServletContext();
-        ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver(servletContext);
-        templateResolver.setTemplateMode(TemplateMode.HTML);
-        this.templateEngine = new TemplateEngine();
-        this.templateEngine.setTemplateResolver(templateResolver);
-        templateResolver.setSuffix(".html");
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-        //redirect to login if not logged in
-        String path = getServletContext().getContextPath();
-        HttpSession session = request.getSession();
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
 
         User sessionUser = (User) session.getAttribute("currentUser");
-
-        if (session.isNew() || sessionUser == null) {
+        if (session == null || sessionUser == null) {
+            String path = getServletContext().getContextPath();
             response.sendRedirect(path);
             return;
         }
 
+        //controlls
         String username = request.getParameter("username");
         String folderName = request.getParameter("folderName");
         String subFolderName = request.getParameter("subFolderName");
@@ -66,12 +57,12 @@ public class Access extends HttpServlet {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "User not allowed");
             return;
         }
-
-        Document doc;
+        byte[] body = null;
         DocumentDAO docDAO = new DocumentDAO(connection);
+
         try{
-            doc = docDAO.getDocumentByKey(username, folderName, subFolderName, documentName, type);
-            if(doc == null) {
+            body = docDAO.getDocumentData(username, folderName, subFolderName, documentName, type);
+            if(body == null) {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Resource not found");
                 return;
             }
@@ -79,14 +70,27 @@ public class Access extends HttpServlet {
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to recover document");
             return;
         }
-        //redirect
+        System.out.println(body);
 
-        path = "/WEB-INF/documentPage.html";
-        ServletContext servletContext = getServletContext();
-        final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-        ctx.setVariable("document", doc );
-        templateEngine.process(path, ctx, response.getWriter());
+        response.setHeader("Content-disposition","attachment; filename="+documentName+"."+type);
 
+        File tmpFile = File.createTempFile(documentName, type, new File("C:\\Users\\loren\\OneDrive\\Desktop"));
+
+        OutputStream out = response.getOutputStream();
+        FileInputStream in = new FileInputStream(tmpFile);
+
+        int length;
+        while ((length = in.read(body)) > 0){
+            out.write(body, 0, length);
+        }
+        in.close();
+        out.flush();
+        tmpFile.delete();
+    }
+
+    /** check string parameter isn't null and lenght greater than zero */
+    private boolean checkIncorrect(String string){
+        return (string==null || string.isEmpty() );
     }
 
     public void destroy() {
@@ -95,10 +99,5 @@ public class Access extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    /** check string parameter isn't null and lenght greater than zero */
-    private boolean checkIncorrect(String string){
-        return (string==null || string.isEmpty() );
     }
 }

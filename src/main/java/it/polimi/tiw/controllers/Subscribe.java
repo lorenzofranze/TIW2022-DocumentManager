@@ -112,6 +112,7 @@ public class Subscribe extends HttpServlet {
                 dao.createUser(user,password1);
             }catch(SQLException e){
                 response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in database subscribing");
+                return;
             }
             path = "/loginPage.html";
             ctx.setVariable("registationOK", "REGISTRATION COMPLETED");

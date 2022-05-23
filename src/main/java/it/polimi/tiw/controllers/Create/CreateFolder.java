@@ -59,6 +59,7 @@ public class CreateFolder extends HttpServlet {
                 exists = dao.existsFolder(((User) session.getAttribute("currentUser")).getUsername(), folderName);
             } catch (SQLException e) {
                 response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in database checking folders");
+                return;
             }
             //there is an other folder with same name
             if(exists){
@@ -76,6 +77,7 @@ public class CreateFolder extends HttpServlet {
                 dao.insertFolder(folder);
             } catch (SQLException e) {
                 response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in database update folders");
+                return;
             }
             path = getServletContext().getContextPath() + "/GoToHomePage";
             session.setAttribute("creationOK", "new folder created");

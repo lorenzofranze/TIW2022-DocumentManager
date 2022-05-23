@@ -54,6 +54,7 @@ public class CreateSubFolder extends HttpServlet {
         //to repeat client side
         if (subFolderName == null || subFolderName.length() <= 3 || folderName == null || folderName.length()<=3) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Name format error");
+            return;
         }
 
         boolean exists=true;
@@ -64,6 +65,7 @@ public class CreateSubFolder extends HttpServlet {
             exists=folderDAO.existsFolder(((User) session.getAttribute("currentUser")).getUsername(), folderName);
         }catch(SQLException e ){
             response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in database checking folders");
+            return;
         }
         if(exists==false){
             creationOK=false;
@@ -76,6 +78,7 @@ public class CreateSubFolder extends HttpServlet {
                 exists = subFolderDAO.existsSubFolder(((User) session.getAttribute("currentUser")).getUsername(), folderName, subFolderName);
             } catch (SQLException e) {
                 response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in database checking folders");
+                return;
             }
 
             if(exists){

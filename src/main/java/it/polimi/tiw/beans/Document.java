@@ -10,7 +10,6 @@ public class Document {
     private String type;
     private String summary;
     private Date date;
-    private String body;
 
     public String getUsername() {
         return username;
@@ -66,14 +65,6 @@ public class Document {
 
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    public String getBody() {
-        return body;
-    }
-
-    public void setBody(String body) {
-        this.body = body;
     }
 
 }

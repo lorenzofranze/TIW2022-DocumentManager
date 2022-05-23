@@ -13,7 +13,12 @@
     <tr> <th>Document type:</th><td>  <span th:text="${document.type}"></span></td> </tr>
     <tr> <th>Creation:</th> <td> <span th:text="${document.date}"></span> </td></tr>
     <tr> <th>Summury:</th>  <td><span th:text="${document.summary}"></span></td> </tr>
-    <tr> <td colspan="2" align="center"> <button> <a href="/images/myw3schoolsimage.jpg" download>  </a>Download </button> </td></tr>
+    <tr> <td colspan="2" align="center"> <a th:href="@{/GetFile(username=${document.username},
+                                  folderName=${document.folderName},
+                                  subFolderName=${document.subFolderName},
+                                  documentName=${document.documentName},
+                                  documentType=${document.type}
+                                  )}" download> Download </a>  </td></tr>
 </table>
 
 </body>

@@ -19,10 +19,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @WebServlet("/ContentManager")
 public class ContentManager extends HttpServlet {
@@ -51,7 +49,7 @@ public class ContentManager extends HttpServlet {
             return;
         }
 
-        Map<Folder, List<SubFolder>> subFolderMap = new HashMap<>();
+        Map<Folder, List<SubFolder>> subFolderMap = new LinkedHashMap<>();
         // get all folders of user
         User user = (User) session.getAttribute("currentUser");
         List<Folder> folders= new ArrayList<>();

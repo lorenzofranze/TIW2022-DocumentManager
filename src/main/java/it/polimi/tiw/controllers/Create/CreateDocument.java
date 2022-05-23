@@ -56,13 +56,11 @@ public class CreateDocument extends HttpServlet {
         Part filePart = request.getPart("body");
         String type ="";
         InputStream inputStream = null; // input stream of the uploaded file
-        String mimeType = null;
-        String filename = filePart.getSubmittedFileName();
+        String filename;
         if (filePart != null) {
             filename = filePart.getSubmittedFileName();
             type = FilenameUtils.getExtension(filename);
             inputStream = filePart.getInputStream();
-            mimeType = getServletContext().getMimeType(filePart.getSubmittedFileName());
         }
 
         if (inputStream == null || (inputStream.available()==0) ) {
@@ -90,6 +88,7 @@ public class CreateDocument extends HttpServlet {
             exists=folderDAO.existsFolder(((User) session.getAttribute("currentUser")).getUsername(), folderName);
         }catch(SQLException e ){
             response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in database checking folders");
+            return;
         }
         if(exists==false){
             creationOK=false;
@@ -100,6 +99,7 @@ public class CreateDocument extends HttpServlet {
             exists=subFolderDAO.existsSubFolder(((User) session.getAttribute("currentUser")).getUsername(), folderName, subFolderName);
         }catch(SQLException e ){
             response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in database checking sub folders");
+            return;
         }
         if(exists==false){
             creationOK=false;
@@ -114,6 +114,7 @@ public class CreateDocument extends HttpServlet {
                         subFolderName, documentName, type);
             } catch (SQLException e) {
                 response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in database checking folders");
+                return;
             }
 
             if(exists){
@@ -129,6 +130,7 @@ public class CreateDocument extends HttpServlet {
                         subFolderName, documentName, type, summury, new Date(), inputStream);
             } catch (SQLException e) {
                 response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in database update documents");
+                return;
             }
             path = getServletContext().getContextPath() + "/GoToHomePage";
             session.setAttribute("creationOK", "new document uploaded");
