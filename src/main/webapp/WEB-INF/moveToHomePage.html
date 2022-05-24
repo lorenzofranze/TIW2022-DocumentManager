@@ -3,8 +3,7 @@
 <head>
   <meta charset="ISO-8859-1">
   <title>HomePage</title>
-  <link rel="stylesheet" type="text/css" media="all"
-        href="Static/Style/Style.css" th:href="@{/WEB-INF/Static/Style/Style.css}" />
+  <link rel="stylesheet" type="text/css" href="../CSS/LoginSubscribeHome.css" th:href="@{/CSS/LoginSubscribeHome.css}" />
 </head>
 <body>
 <div th:insert="WEB-INF/header.html :: logout"> </div>
@@ -14,13 +13,21 @@
   <li th:each="folder : ${allfolders}"><span th:text="${folder.folderName}"></span>
     <ul>
       <li th:each="subfolder: ${folder.getChildList()}">
-        <a th:if="${!(docToMove.folderName == subfolder.folderName && docToMove.subFolderName == subfolder.subFolderName)}"
-           th:href="@{/MoveDocument(folderName=${subfolder.folderName},
-                                  subFolderName=${subfolder.subFolderName},
+        <a th:if="${not(doc.folderName == subfolder.folderName and doc.subFolderName == subfolder.subFolderName)}"
+           th:href="@{/MoveDocument(folderTarget=${subfolder.folderName},
+                                  subFolderTarget=${subfolder.subFolderName},
+                                  username=${doc.username},
+                                  folderName=${doc.folderName},
+                                  subFolderName=${doc.subFolderName},
+                                  documentName=${doc.documentName},
+                                  documentType=${doc.type},
                                   requestAction='updateFolder')}">
           <span th:text="${subfolder.getSubFolderName()}"></span>
         </a>
-        <span th:unless="${!(docToMove.folderName == subfolder.folderName && docToMove.subFolderName == subfolder.subFolderName)}" th:text="${subfolder.getSubFolderName()}"></span>
+        <span th:if="${(doc.folderName == subfolder.folderName and doc.subFolderName == subfolder.subFolderName)}"
+        class="highlighted" th:text="${subfolder.getSubFolderName()}">
+        </span>
+
     </ul>
 </ul>
 </body>

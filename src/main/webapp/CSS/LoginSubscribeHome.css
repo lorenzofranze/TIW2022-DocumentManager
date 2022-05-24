@@ -5,3 +5,7 @@
 .errorLogSub{
     color: red
 }
+
+.highlighted{
+    background-color: lightcoral;
+}

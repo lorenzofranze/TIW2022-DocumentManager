@@ -85,7 +85,7 @@ public class Access extends HttpServlet {
         ServletContext servletContext = getServletContext();
         final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
         ctx.setVariable("document", doc );
-        ctx.setVariable("page", request.getRequestURI());
+        ctx.setVariable("page", "Documents?"+request.getQueryString());
         templateEngine.process(path, ctx, response.getWriter());
 
     }

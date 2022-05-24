@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.ws.rs.core.Request;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -49,7 +48,7 @@ public class GoToHomePage extends HttpServlet{
             return;
         }
 
-        List<Folder> allfolders = getFolderTree(request, response, session);
+        List<Folder> allfolders = getFolderTree(response, session);
 
         // Redirect to the Home page and add folders to the parameters
         String path = "/WEB-INF/homePage.html";
@@ -61,7 +60,7 @@ public class GoToHomePage extends HttpServlet{
         templateEngine.process(path, ctx, response.getWriter());
     }
 
-    public static List<Folder> getFolderTree(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws UnavailableException, IOException {
+    public static List<Folder> getFolderTree(HttpServletResponse response, HttpSession session) throws UnavailableException, IOException {
 
         List<Folder> allfolders = new ArrayList<>();
 

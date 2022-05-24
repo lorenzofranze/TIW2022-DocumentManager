@@ -54,13 +54,16 @@ public class CreateDocument extends HttpServlet {
         String documentName = request.getParameter("documentName");
         String summury = request.getParameter("summury");
         Part filePart = request.getPart("body");
-        String type ="";
+        String type ="none";
         InputStream inputStream = null; // input stream of the uploaded file
         String filename;
         if (filePart != null) {
             filename = filePart.getSubmittedFileName();
             type = FilenameUtils.getExtension(filename);
             inputStream = filePart.getInputStream();
+        }
+        if(type==null || type.equals("")){
+            type="none";
         }
 
         if (inputStream == null || (inputStream.available()==0) ) {

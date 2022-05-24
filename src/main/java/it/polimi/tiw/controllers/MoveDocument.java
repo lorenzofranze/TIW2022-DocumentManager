@@ -43,7 +43,7 @@ public class MoveDocument extends HttpServlet {
 
 
         //redirect to login if not logged in
-        String path = getServletContext().getContextPath() + "/";
+        String path = getServletContext().getContextPath();
         HttpSession session = request.getSession();
 
         User sessionUser = (User) session.getAttribute("currentUser");
@@ -53,7 +53,6 @@ public class MoveDocument extends HttpServlet {
             return;
         }
 
-        // TODO: check if it's a best practice
         String requestAction = request.getParameter("requestAction");
 
         DocumentDAO docDAO = new DocumentDAO(connection);
@@ -72,15 +71,16 @@ public class MoveDocument extends HttpServlet {
                 return;
             }
 
-
+            //user changes parameters to access resources of other users:
+            if(!username.equals(sessionUser.getUsername())){
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "User not allowed");
+                return;
+            }
 
             try{
                 doc = docDAO.getDocumentByKey(username, folderName, subFolderName, documentName, type);
-                if(doc == null){
+                if(doc == null) {
                     response.sendError(HttpServletResponse.SC_NOT_FOUND, "Resource not found");
-                } else if (!(doc.getUsername().equals(sessionUser.getUsername()))){
-                    //example: user changes parameters to access resources of other users
-                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "User not allowed");
                     return;
                 }
             }catch(SQLException e){
@@ -88,41 +88,55 @@ public class MoveDocument extends HttpServlet {
                 return;
             }
 
-            List<Folder> allfolders = GoToHomePage.getFolderTree(request, response, session);
+            List<Folder> allfolders = GoToHomePage.getFolderTree(response, session);
 
             path = "/WEB-INF/moveToHomePage.html";
             ServletContext servletContext = getServletContext();
             final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
             ctx.setVariable("allfolders", allfolders );
-            ctx.setVariable("docToMove", doc );
+            ctx.setVariable("doc", doc );
+            ctx.setVariable("page", "Documents?"+request.getQueryString());
             templateEngine.process(path, ctx, response.getWriter());
 
         } else if (requestAction.equals("updateFolder")) {
 
+            String folderTarget = request.getParameter("folderTarget");
+            String subFolderTarget = request.getParameter("subFolderTarget");
+
+            //document's key origin
+            String username = request.getParameter("username");
             String folderName = request.getParameter("folderName");
             String subFolderName = request.getParameter("subFolderName");
+            String documentName = request.getParameter("documentName");
+            String type = request.getParameter("documentType");
 
-            if (doc != null) {
-                // TODO: check if user has privileges
-                try {
-                    docDAO.moveDocumentFromSubFolder(doc, folderName, subFolderName);
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-                // TODO: check if doc already exists in folder --> subfolder
-
-                path = "/WEB-INF/documentPage.html";
-                ServletContext servletContext = getServletContext();
-                final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-                ctx.setVariable("document", doc );
-                ctx.setVariable("page", "");
-                templateEngine.process(path, ctx, response.getWriter());
-
-            } else {
-                // TODO: choose right ERROR code
-                response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Illegal order in requests to the server (doc not initialized)");
+            if(checkIncorrect(username) || checkIncorrect(folderName) || checkIncorrect(subFolderName) || checkIncorrect(documentName) || checkIncorrect(type)
+                || checkIncorrect(folderTarget) || checkIncorrect(subFolderTarget)){
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Incorrect param values");
                 return;
             }
+
+            //user changes parameters to access resources of other users:
+            if(!username.equals(sessionUser.getUsername())){
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "User not allowed");
+                return;
+            }
+            //check if target is different from origin
+            if(folderName.equals(folderTarget) && subFolderName.equals(subFolderTarget)) {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "target equals origin");
+                return;
+            }
+            try {
+                docDAO.moveDocumentFromSubFolder(username, folderName, subFolderName, documentName, type, folderTarget, subFolderTarget);
+            } catch (SQLException e) {
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to move document");
+                return;
+            }
+
+            response.sendRedirect(getServletContext().getContextPath() + "/"+"Documents"+"?"+
+                    "username="+username+"&folderName="+folderTarget+"&subFolderName="+subFolderTarget);
+
+        // incorrect action
         } else {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Illegal request action cannot be executed ");
             return;

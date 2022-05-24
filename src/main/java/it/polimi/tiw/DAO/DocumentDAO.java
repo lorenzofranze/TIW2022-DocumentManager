@@ -88,7 +88,7 @@ public class DocumentDAO {
 
     /** this method edits document's attributes in document when the document is moved */
     //sql exeption if in the destination subfolder there is a document with same primary key
-    public void moveDocumentFromSubFolder(Document document, String folderName, String subFolderName) throws SQLException{
+    public void moveDocumentFromSubFolder(String username, String folderName, String subFolderName, String documentName, String type, String folderTarget, String subFolderTarget) throws SQLException{
         String query = "UPDATE document set folderName = ? , subFolderName = ? WHERE username = ? " +
                 "and folderName = ? and subFolderName = ? " +
                 "and documentName = ? and type = ?";
@@ -98,13 +98,13 @@ public class DocumentDAO {
 
         try {
             pstatement = con.prepareStatement(query);
-            pstatement.setString(1, folderName);
-            pstatement.setString(2, subFolderName);
-            pstatement.setString(3, document.getUsername());
-            pstatement.setString(4, document.getFolderName());
-            pstatement.setString(5, document.getSubFolderName());
-            pstatement.setString(6, document.getDocumentName());
-            pstatement.setString(7, document.getType());
+            pstatement.setString(1, folderTarget);
+            pstatement.setString(2, subFolderTarget);
+            pstatement.setString(3, username);
+            pstatement.setString(4, folderName);
+            pstatement.setString(5, subFolderName);
+            pstatement.setString(6, documentName);
+            pstatement.setString(7, type);
 
             code = pstatement.executeUpdate();
         } catch (SQLException e) {
