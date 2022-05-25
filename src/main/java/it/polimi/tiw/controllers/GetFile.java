@@ -3,6 +3,7 @@ package it.polimi.tiw.controllers;
 import it.polimi.tiw.DAO.DocumentDAO;
 import it.polimi.tiw.beans.User;
 import it.polimi.tiw.utils.ConnectionHandler;
+import org.apache.commons.io.IOUtils;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
@@ -14,12 +15,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Arrays;
 
 @WebServlet("/GetFile")
 public class GetFile extends HttpServlet {
@@ -57,12 +56,12 @@ public class GetFile extends HttpServlet {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "User not allowed");
             return;
         }
-        byte[] body = null;
-        DocumentDAO docDAO = new DocumentDAO(connection);
 
+        DocumentDAO docDAO = new DocumentDAO(connection);
+        InputStream dbStream =null;
         try{
-            body = docDAO.getDocumentData(username, folderName, subFolderName, documentName, type);
-            if(body == null) {
+            dbStream = docDAO.getDocumentData(username, folderName, subFolderName, documentName, type);
+            if(dbStream == null) {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Resource not found");
                 return;
             }
@@ -70,22 +69,32 @@ public class GetFile extends HttpServlet {
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to recover document");
             return;
         }
-        System.out.println(body);
 
+        response.setContentType("text/plain");
         response.setHeader("Content-disposition","attachment; filename="+documentName+"."+type);
 
-        File tmpFile = File.createTempFile(documentName, type, new File("C:\\Users\\loren\\OneDrive\\Desktop"));
 
+        File tmpFile = new File("tmp"+"."+type);
+        OutputStream streamfile = new FileOutputStream(tmpFile);
+        IOUtils.copy(dbStream, streamfile);
+        dbStream.close();
+        streamfile.close();
+        //now file created
+
+        //send file to client
+        byte[] buffer = new byte[1024];
         OutputStream out = response.getOutputStream();
-        FileInputStream in = new FileInputStream(tmpFile);
-
+        FileInputStream fileInputStream = new FileInputStream(tmpFile);
         int length;
-        while ((length = in.read(body)) > 0){
-            out.write(body, 0, length);
+        while ((length = fileInputStream.read(buffer)) > 0){
+            out.write(buffer, 0, length);
         }
-        in.close();
+
+        fileInputStream.close();
         out.flush();
         tmpFile.delete();
+
+
     }
 
     /** check string parameter isn't null and lenght greater than zero */

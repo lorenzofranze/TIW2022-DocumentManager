@@ -2,12 +2,14 @@ package it.polimi.tiw.DAO;
 
 import it.polimi.tiw.beans.Document;
 
-import java.io.InputStream;
+import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
+
+import static java.lang.System.out;
 
 public class DocumentDAO {
     private Connection con;
@@ -214,14 +216,13 @@ public class DocumentDAO {
         return doc;
     }
 
-    public byte[] getDocumentData(String username, String folderName, String subFolderName, String documentName, String type) throws SQLException{
+    public InputStream getDocumentData(String username, String folderName, String subFolderName, String documentName, String type) throws SQLException{
         String query = "select body from document where username = ? " +
                 "and folderName = ? and subFolderName = ? " +
                 "and documentName = ? and type = ?";
         PreparedStatement pstatement = null;
         ResultSet result = null;
-        byte[] body;
-
+        InputStream input = null;
         try {
             pstatement = con.prepareStatement(query);
             pstatement.setString(1, username);
@@ -236,12 +237,8 @@ public class DocumentDAO {
                 return null;  //empty
 
             result.next();
+            input = result.getBinaryStream("body");
 
-            Blob blob = result.getBlob("body");
-            body = blob.getBytes(1, (int)blob.length());
-            blob.free();
-
-            result.getBinaryStream("body");
         } catch (SQLException e) {
             throw new SQLException(e);
 
@@ -257,7 +254,7 @@ public class DocumentDAO {
                 throw e;
             }
         }
-        return body;
+        return input;
     }
 
 }
