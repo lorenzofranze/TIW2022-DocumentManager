@@ -88,6 +88,9 @@ public class MoveDocument extends HttpServlet {
             ctx.setVariable("allfolders", allfolders );
             ctx.setVariable("doc", doc );
             ctx.setVariable("page", "Documents?"+request.getQueryString());
+            ctx.setVariable("info", "you are moving document "+
+                    doc.getDocumentName()+"."+doc.getType()+" from sub folder: "+doc.getSubFolderName()+
+                    " select new destination: ");
             templateEngine.process(path, ctx, response.getWriter());
 
         } else if (requestAction.equals("updateFolder")) {
