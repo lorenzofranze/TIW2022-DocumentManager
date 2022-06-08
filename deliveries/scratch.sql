@@ -36,7 +36,7 @@ CREATE TABLE document (
     type VARCHAR(40) NOT NULL,
     summary VARCHAR(255) NOT NULL,
     date DATE NOT NULL,
-    body blob not null,
+    body MEDIUM BLOB not null,
     PRIMARY KEY (username, foldername, subfoldername, documentname, type),
     FOREIGN KEY (username, folderName, subfoldername)
         REFERENCES subfolder (username, foldername, subfoldername)
