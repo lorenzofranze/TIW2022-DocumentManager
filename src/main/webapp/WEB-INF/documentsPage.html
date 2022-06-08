@@ -12,7 +12,7 @@
     <ul>
         <li th:each="document : ${allDocumentsOf}">
             <span th:text="${document.documentName}"></span>
-            <!-- TODO: Check if it's a best practice to pass params via GET, and if it would be better to use an ID to referr to elems -->
+            <!-- 2 href -->
             <a th:href="@{/Access(username=${document.username},
                                   folderName=${document.folderName},
                                   subFolderName=${document.subFolderName},

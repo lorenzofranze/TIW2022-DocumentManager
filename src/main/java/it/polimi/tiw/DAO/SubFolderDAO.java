@@ -47,9 +47,14 @@ public class SubFolderDAO {
             pstatement.setString(3, subFolder.getSubFolderName());
             pstatement.setDate(4, new Date(subFolder.getDate().getTime()));
             code = pstatement.executeUpdate();
+        } catch (SQLException e) {
+            throw e;
         } finally {
-            assert pstatement != null;
-            pstatement.close();
+            try {
+                pstatement.close();
+            } catch (SQLException e1) {
+                throw e1;
+            }
         }
         return (code == 1);
     }

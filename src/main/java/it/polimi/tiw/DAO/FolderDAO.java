@@ -70,9 +70,14 @@ public class FolderDAO {
             pstatement.setString(2, folder.getFolderName());
             pstatement.setDate(3, new Date(folder.getDate().getTime()));
             code = pstatement.executeUpdate();
+        } catch (SQLException e) {
+            throw e;
         } finally {
-            assert pstatement != null;
-            pstatement.close();
+            try {
+                pstatement.close();
+            } catch (SQLException e1) {
+                throw e1;
+            }
         }
         return (code == 1);
     }
