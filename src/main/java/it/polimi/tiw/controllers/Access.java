@@ -50,27 +50,20 @@ public class Access extends HttpServlet {
             return;
         }
 
-        String username = request.getParameter("username");
         String folderName = request.getParameter("folderName");
         String subFolderName = request.getParameter("subFolderName");
         String documentName = request.getParameter("documentName");
         String type = request.getParameter("documentType");
 
-        if(checkIncorrect(username) || checkIncorrect(folderName) || checkIncorrect(subFolderName) || checkIncorrect(documentName) || checkIncorrect(type) ){
+        if(checkIncorrect(folderName) || checkIncorrect(subFolderName) || checkIncorrect(documentName) || checkIncorrect(type) ){
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Incorrect param values");
-            return;
-        }
-
-        //user changes parameters to access resources of other users:
-        if(!username.equals(sessionUser.getUsername())){
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "User not allowed");
             return;
         }
 
         Document doc;
         DocumentDAO docDAO = new DocumentDAO(connection);
         try{
-            doc = docDAO.getDocumentByKey(username, folderName, subFolderName, documentName, type);
+            doc = docDAO.getDocumentByKey(((User) session.getAttribute("currentUser")).getUsername(), folderName, subFolderName, documentName, type);
             if(doc == null) {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Resource not found");
                 return;

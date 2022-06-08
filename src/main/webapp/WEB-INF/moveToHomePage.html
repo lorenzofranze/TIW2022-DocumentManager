@@ -16,7 +16,6 @@
         <a th:if="${not(doc.folderName == subfolder.folderName and doc.subFolderName == subfolder.subFolderName)}"
            th:href="@{/MoveDocument(folderTarget=${subfolder.folderName},
                                   subFolderTarget=${subfolder.subFolderName},
-                                  username=${doc.username},
                                   folderName=${doc.folderName},
                                   subFolderName=${doc.subFolderName},
                                   documentName=${doc.documentName},

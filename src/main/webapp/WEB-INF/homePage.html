@@ -13,7 +13,7 @@
       <li th:each="folder : ${allfolders}"><span th:text="${folder.folderName}"></span>
       <ul>
         <li th:each="subfolder: ${folder.getChildList()}">
-          <a th:href="@{/Documents(username=${subfolder.username},folderName=${subfolder.folderName},subFolderName=${subfolder.subFolderName})}">
+          <a th:href="@{/Documents(folderName=${subfolder.folderName},subFolderName=${subfolder.subFolderName})}">
             <span th:text="${subfolder.getSubFolderName()}"></span></a>
       </ul>
     </ul>

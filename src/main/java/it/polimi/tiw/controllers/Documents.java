@@ -55,25 +55,19 @@ public class Documents extends HttpServlet {
             return;
         }
 
-        String username = request.getParameter("username");
         String folderName = request.getParameter("folderName");
         String subFolderName = request.getParameter("subFolderName");
 
-        if(checkIncorrect(username) || checkIncorrect(folderName) || checkIncorrect(subFolderName) ){
+        if( checkIncorrect(folderName) || checkIncorrect(subFolderName) ){
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Incorrect param values");
             return;
         }
 
-        //user changes parameters to access resources of other users:
-        if(!username.equals(sessionUser.getUsername())){
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "User not allowed");
-            return;
-        }
         //check if user has that folder and subfoler(maybe he has manipulated the link)
         boolean valid;
         SubFolderDAO subDao = new SubFolderDAO(connection);
         try{
-            valid = subDao.existsSubFolder(username, folderName, subFolderName);
+            valid = subDao.existsSubFolder(((User) session.getAttribute("currentUser")).getUsername(), folderName, subFolderName);
         }catch (SQLException e){
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
                     "Error in retrieving documents from the database");
@@ -88,7 +82,7 @@ public class Documents extends HttpServlet {
         List<Document> allDocumentsOf = new ArrayList<>();
         DocumentDAO dService = new DocumentDAO(connection);
         try {
-            allDocumentsOf = dService.getAllDocumentsOfSubFolder(username, folderName, subFolderName);
+            allDocumentsOf = dService.getAllDocumentsOfSubFolder(((User) session.getAttribute("currentUser")).getUsername(), folderName, subFolderName);
         } catch (Exception e) {
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
                     "Error in retrieving documents from the database");

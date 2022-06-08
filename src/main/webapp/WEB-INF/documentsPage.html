@@ -13,16 +13,14 @@
         <li th:each="document : ${allDocumentsOf}">
             <span th:text="${document.documentName}"></span>
             <!-- 2 href -->
-            <a th:href="@{/Access(username=${document.username},
-                                  folderName=${document.folderName},
+            <a th:href="@{/Access(folderName=${document.folderName},
                                   subFolderName=${document.subFolderName},
                                   documentName=${document.documentName},
                                   documentType=${document.type}
                                   )}">
                 <span> >Access </span>
             </a>
-            <a th:href="@{/MoveDocument(username=${document.username},
-                                  folderName=${document.folderName},
+            <a th:href="@{/MoveDocument(folderName=${document.folderName},
                                   subFolderName=${document.subFolderName},
                                   documentName=${document.documentName},
                                   documentType=${document.type},

@@ -40,22 +40,8 @@ public class FolderDAO {
     public List<SubFolder> getAllChildOfFolder(Folder folder, String username) throws SQLException {
 
         List<SubFolder> allSubFoldersOf = new ArrayList<>();
-
-        try (PreparedStatement pstatement = connection.prepareStatement(
-                "SELECT * FROM subfolder WHERE username = ? AND foldername = ? ")) {
-            pstatement.setString(1, username);
-            pstatement.setString(2, folder.getFolderName());
-            try (ResultSet result = pstatement.executeQuery()) {
-                while (result.next()) {
-                    SubFolder newSubFolder = new SubFolder();
-                    newSubFolder.setUsername(result.getString("username"));
-                    newSubFolder.setFolderName(result.getString("foldername"));
-                    newSubFolder.setSubFolderName(result.getString("subfoldername"));
-                    newSubFolder.setDate(result.getDate("date"));
-                    allSubFoldersOf.add(newSubFolder);
-                }
-            }
-        }
+        SubFolderDAO dao = new SubFolderDAO(connection);
+        allSubFoldersOf = dao.getAllSubFolderOfFolder(username, folder.getFolderName());
         return allSubFoldersOf;
     }
 
