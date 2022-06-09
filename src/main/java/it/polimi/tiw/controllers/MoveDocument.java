@@ -117,6 +117,20 @@ public class MoveDocument extends HttpServlet {
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "target equals origin");
                 return;
             }
+            //check univocity
+            boolean exists;
+            try {
+                exists = docDAO.exists(((User) session.getAttribute("currentUser")).getUsername(), folderName, subFolderName, documentName, type);
+            } catch (SQLException e) {
+                response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in database checking folders");
+                return;
+            }
+            if(exists){
+                response.sendError(HttpServletResponse.SC_CONFLICT, "document already present");
+                return;
+            }
+
+            //move
             try {
                 docDAO.moveDocumentFromSubFolder(((User) session.getAttribute("currentUser")).getUsername(), folderName, subFolderName, documentName, type, folderTarget, subFolderTarget);
             } catch (SQLException e) {
