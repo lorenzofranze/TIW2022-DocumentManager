@@ -120,7 +120,7 @@ public class MoveDocument extends HttpServlet {
             //check univocity
             boolean exists;
             try {
-                exists = docDAO.exists(((User) session.getAttribute("currentUser")).getUsername(), folderName, subFolderName, documentName, type);
+                exists = docDAO.exists(((User) session.getAttribute("currentUser")).getUsername(), folderTarget, subFolderTarget, documentName, type);
             } catch (SQLException e) {
                 response.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Failure in database checking folders");
                 return;
