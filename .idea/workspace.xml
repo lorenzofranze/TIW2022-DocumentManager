@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="8c06ac1c-56d5-482d-9ccb-8e7e5de9d76d" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/.idea/artifacts/documentManagerHTML_war.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/.idea/artifacts/documentManagerHTML_war_exploded.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/.idea/libraries/Maven__commons_io_commons_io_2_6.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/.idea/libraries/Maven__javax_javaee_web_api_8_0_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/.idea/libraries/Maven__javax_servlet_jstl_1_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/.idea/libraries/Maven__ognl_ognl_3_1_26.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/.idea/libraries/Maven__org_apiguardian_apiguardian_api_1_1_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/.idea/libraries/Maven__org_attoparser_attoparser_2_0_5_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/.idea/libraries/Maven__org_javassist_javassist_3_20_0_GA.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/.idea/libraries/Maven__org_junit_jupiter_junit_jupiter_api_5_7_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/.idea/libraries/Maven__org_junit_jupiter_junit_jupiter_engine_5_7_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/.idea/libraries/Maven__org_junit_platform_junit_platform_commons_1_7_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/.idea/libraries/Maven__org_junit_platform_junit_platform_engine_1_7_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/.idea/libraries/Maven__org_opentest4j_opentest4j_1_2_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/.idea/libraries/Maven__org_slf4j_slf4j_api_1_7_25.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/.idea/libraries/Maven__org_thymeleaf_thymeleaf_3_0_12_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/.idea/libraries/Maven__org_unbescape_unbescape_1_1_6_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/.idea/webContexts.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/deliveries/Components.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/deliveries/Components.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/deliveries/Docs.pptx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/deliveries/E-R.drawio" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/deliveries/E-R.drawio.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/deliveries/documentManager.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/deliveries/documentManager.pptx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/deliveries/pagine.drawio" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/deliveries/pagine.drawio.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/deliveries/scratch.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/src/main/java/it/polimi/tiw/DAO/DocumentDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/src/main/java/it/polimi/tiw/DAO/FolderDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/src/main/java/it/polimi/tiw/DAO/SubFolderDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/src/main/java/it/polimi/tiw/DAO/UserDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/src/main/java/it/polimi/tiw/beans/Document.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/src/main/java/it/polimi/tiw/beans/Folder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/src/main/java/it/polimi/tiw/beans/SubFolder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/src/main/java/it/polimi/tiw/beans/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/src/main/java/it/polimi/tiw/controllers/Access.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/src/main/java/it/polimi/tiw/controllers/ContentManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/src/main/java/it/polimi/tiw/controllers/Create/CreateDocument.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/src/main/java/it/polimi/tiw/controllers/Create/CreateFolder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/src/main/java/it/polimi/tiw/controllers/Create/CreateSubFolder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/src/main/java/it/polimi/tiw/controllers/Documents.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/src/main/java/it/polimi/tiw/controllers/GetFile.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/src/main/java/it/polimi/tiw/controllers/GoToHomePage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/src/main/java/it/polimi/tiw/controllers/LogOut.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/src/main/java/it/polimi/tiw/controllers/Login.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/src/main/java/it/polimi/tiw/controllers/MoveDocument.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/src/main/java/it/polimi/tiw/controllers/Subscribe.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/src/main/java/it/polimi/tiw/utils/ConnectionHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/src/main/webapp/CSS/ContentManager.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/src/main/webapp/CSS/Document.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/src/main/webapp/CSS/LoginSubscribeHome.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/src/main/webapp/META-INF/MANIFEST.MF" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/src/main/webapp/WEB-INF/contentManagerPage.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/src/main/webapp/WEB-INF/documentPage.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/src/main/webapp/WEB-INF/documentsPage.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/src/main/webapp/WEB-INF/header.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/src/main/webapp/WEB-INF/homePage.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/src/main/webapp/WEB-INF/lib/mysql-connector-java-8.0.28.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/src/main/webapp/WEB-INF/lib/thymeleaf-3.0.11.RELEASE.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/src/main/webapp/WEB-INF/moveToHomePage.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/src/main/webapp/loginPage.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/documentManagerHTML/src/main/webapp/subscribePage.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/documentManagerHTML_war.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/documentManagerHTML_war_exploded.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/webContexts.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/deliveries/Components.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/deliveries/Components.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/deliveries/E-R.drawio" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/deliveries/E-R.drawio.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/deliveries/documentManager.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/deliveries/documentManager.pptx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/deliveries/pagine.drawio" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/deliveries/pagine.drawio.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/deliveries/scratch.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/tiw/DAO/DocumentDAO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/tiw/DAO/FolderDAO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/tiw/DAO/SubFolderDAO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/tiw/DAO/UserDAO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/tiw/beans/Document.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/tiw/beans/Folder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/tiw/beans/SubFolder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/tiw/beans/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/tiw/controllers/Access.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/tiw/controllers/ContentManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/tiw/controllers/Create/CreateDocument.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/tiw/controllers/Create/CreateFolder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/tiw/controllers/Create/CreateSubFolder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/tiw/controllers/Documents.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/tiw/controllers/GetFile.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/tiw/controllers/GoToHomePage.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/tiw/controllers/LogOut.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/tiw/controllers/Login.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/tiw/controllers/MoveDocument.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/tiw/controllers/Subscribe.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/tiw/utils/ConnectionHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/CSS/ContentManager.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/CSS/Document.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/CSS/LoginSubscribeHome.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/META-INF/MANIFEST.MF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/contentManagerPage.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/documentPage.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/documentsPage.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/header.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/homePage.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/lib/mysql-connector-java-8.0.28.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/lib/thymeleaf-3.0.11.RELEASE.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/moveToHomePage.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/loginPage.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/subscribePage.html" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2AsY7j5EomHNnpYUiuKGyY9pTL4" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="8c06ac1c-56d5-482d-9ccb-8e7e5de9d76d" name="Changes" comment="" />
+      <created>1655799595984</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1655799595984</updated>
+      <workItem from="1655799597657" duration="92000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <ignored-roots>
+      <path value="$PROJECT_DIR$" />
+      <path value="$PROJECT_DIR$/documentManagerRIA" />
+    </ignored-roots>
+  </component>
+</project>

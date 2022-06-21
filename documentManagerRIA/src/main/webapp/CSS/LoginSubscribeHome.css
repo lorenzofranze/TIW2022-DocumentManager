@@ -1,0 +1,19 @@
+.creation{
+    color: darkgreen;
+}
+
+.error{
+    color: red
+}
+
+.solid{
+    border-style: solid;
+}
+
+.newEvent{
+    background-color:darkorange;
+}
+
+.intro{
+    background-color: khaki;
+}

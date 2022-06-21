@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html >
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Subscribe page</title>
+    <link rel="stylesheet" type="text/css" href="CSS/LoginSubscribeHome.css" />
+    <script src="utils.js" charset="utf-8" defer></script>
+    <script src="subscribeController.js" charset="utf-8" defer></script>
+</head>
+<body>
+<h1>documents management application</h1>
+
+<h3>register to the document manager application</h3>
+
+<p class="error" id="Error"></p>
+
+<form action="#">
+    Username: <input type="text" name="username" minlength="4" required> <p class="error" id="nameError"></p>
+    Email: <input type="email" name="email" minlength="4" required> <p class="error" id="emailError"></p>
+    name: <input type="text" name="name" required> <p></p>
+    Password: <input type="password" name="password1" minlength="4" required> <p></p>
+    Confirm password: <input type="password" name="password2" required> <p  class="error" id = "passwordDifferentError"></p>
+    <input id="subscribeButton" type="submit" value="subscribe">
+</form>
+<br>
+<a href = "loginPage.html"> Back to login </a>
+
+</body>
+</html>

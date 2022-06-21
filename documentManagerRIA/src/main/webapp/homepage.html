@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="ISO-8859-1">
+    <title>HomePage</title>
+    <link rel="stylesheet" type="text/css" href="CSS/LoginSubscribeHome.css"/>
+    <script src="homePageController.js" defer></script>
+    <script src="utils.js" defer></script>
+  </head>
+  <body>
+
+    <a href="LogOut">Logout</a>
+    <h1>Document Management Home Page</h1>
+
+    <!-- ALERT VISUALIZATION -->
+
+    <div id="alert_container" class="newEvent"></div>
+
+    <!-- FOLDER && SUBFOLDER TREE VISUALIZATION -->
+    <p class= "creation"></p>
+    <div id="folder_tree">
+      <ul id="treecontainer" class="boxed"></ul>
+    </div>
+
+    <!-- DOCUMENTS IN SUBFOLDER VISUALIZATION -->
+    <div class="solid" id="documents_list">
+      <ul id="documentscontainer" class="boxed"></ul>
+    </div>
+
+    <!-- DOCUMENT DETAILS VISUALIZATION -->
+    <div class="solid" id="details_list">
+      <ul id="detailscontainer" class="boxed"></ul>
+    </div>
+
+    <!-- FILE && SUBFOLDERS && FOLDERS CREATION -->
+    <div class="solid" >
+        <form id="folder_form">
+          <h4>Here you can create your contents</h4>
+          <p>Complete the form to create a folder</p>
+          <p>Folder name: <input type="text" name="folderName" required minlength="4"/></p>
+          <input type="button" id="submitfolder" value="submit folder" name="submit" class="submit">
+        </form>
+        <form id="sub_folder_form">
+          <h4>Here you can create your contents</h4>
+          <p>Create sub folder : <input type="text" name="subFolderName" required minlength="4"/></p>
+          <input type="button" id="submitsubfolder" value="submit subfolder" name="submit" class="submit">
+        </form>
+        <form id="document_form" enctype="multipart/form-data">
+          <h4>Here you can create your contents</h4>
+          <p>Document name: <input type="text" name="documentName" required minlength="4"/></p>
+          <p>Summury : <input type="text" name="summury" required /></p>
+          <p>(16 Mb max) <input type="file"  name="body" required></p>
+          <input type="button" id="submitdocument" value="submit document" name="submit" class="submit">
+        </form>
+      </div>
+    <!---------------------------------------------------->
+  </body>
+</html>
