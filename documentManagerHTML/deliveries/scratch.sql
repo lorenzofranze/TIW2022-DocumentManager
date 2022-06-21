@@ -1,5 +1,3 @@
---ho dato il nome db_docmanager allo schema solo per avere lo stesso nome nel web.xml
-
 CREATE TABLE  user (
     username VARCHAR(40) NOT NULL PRIMARY KEY,
     email VARCHAR(40) NOT NULL UNIQUE,
@@ -36,7 +34,7 @@ CREATE TABLE document (
     type VARCHAR(40) NOT NULL,
     summary VARCHAR(255) NOT NULL,
     date DATE NOT NULL,
-    body MEDIUM BLOB not null,
+    body BLOB not null,
     PRIMARY KEY (username, foldername, subfoldername, documentname, type),
     FOREIGN KEY (username, folderName, subfoldername)
         REFERENCES subfolder (username, foldername, subfoldername)
