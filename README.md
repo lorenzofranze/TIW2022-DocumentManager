@@ -1,6 +1,6 @@
 # Final Project of Web Information Technologies 2022
 
-*This project was developed between May and June 2021, at Politecnico of Milan.* <br>
+*This project was developed between May and June 2021, at Politecnico of Milan.* <br><br>
 **Alessandro Cogollo** ([@AlessandroCogollo](https://github.com/AlessandroCogollo)) <br>
 **Lorenzo Franzè** ([@LorenzoFranze](https://github.com/lorenzofranze)) <br>
 
