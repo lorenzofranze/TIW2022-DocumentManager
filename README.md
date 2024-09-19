@@ -9,7 +9,7 @@ The aim of the project is to develop two versions of a WebSite (pure HTML versio
 
 The purpose of the course is to prove our knowledge of the Web Architecture from the point of view of protocols (HTTP), description and presentation formats of the contents (HTML and CSS) and the languages and programming envriroments (Java Servlet, JSP and Javascript)
 
-**Tools: HTML, CSS, Java Servlet, JSP and Javascript**
+**Tools: HTML, CSS, Java Servlet, JSP and Javascript, mySQL, Java**
 
 <br>
 
